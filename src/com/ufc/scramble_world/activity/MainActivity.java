@@ -1,10 +1,16 @@
 package com.ufc.scramble_world.activity;
 
+
+
 import com.ufc.scramble_world.activity.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
 
@@ -12,6 +18,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		setMainLayout();		
 	}
 
 	@Override
@@ -20,5 +27,104 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+	
+	public void setMainLayout() {
+
+		Button play = (Button) findViewById(R.id.bt_play);
+		play.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				selectGameModeLayout();
+
+			}
+		});
+
+		Button credits = (Button) findViewById(R.id.bt_credits);
+		credits.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setCreditsGameLayout();
+
+			}
+		});
+
+	}
+
+	public void setCreditsGameLayout() {
+		setContentView(R.layout.credits_game);
+		ImageButton mainMenu = (ImageButton) findViewById(R.id.ib_main_menu);
+		mainMenu.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setContentView(R.layout.activity_main);
+				setMainLayout();
+
+			}
+		});
+
+	}
+
+	public void selectGameModeLayout() {
+		setContentView(R.layout.select_mode_game);
+
+		Button easy = (Button) findViewById(R.id.bt_easy);
+		easy.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setEasyModeGameActivity();
+
+			}
+		});
+
+		Button normal = (Button) findViewById(R.id.bt_normal);
+		normal.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setNormalModeGameActivity();
+
+			}
+		});
+
+		Button hard = (Button) findViewById(R.id.bt_hard);
+		hard.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setHardModeGameActivity();
+ 
+			}
+		});
+
+		ImageButton mainMenu = (ImageButton) findViewById(R.id.ib_main_menu);
+		mainMenu.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setContentView(R.layout.activity_main);
+				setMainLayout();
+
+			}
+		});
+	}
+
+	public void setEasyModeGameActivity() {
+		Intent launchGame = new Intent(this, EasyModeGameActivity.class);
+		startActivity(launchGame);
+	}
+
+	public void setNormalModeGameActivity() {
+		Intent launchGame = new Intent(this, NormalModeGameActivity.class);
+		startActivity(launchGame);
+	}
+
+	public void setHardModeGameActivity() {
+		Intent launchGame = new Intent(this, HardModeGameActivity.class);
+		startActivity(launchGame);
+	}	
 
 }

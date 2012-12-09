@@ -4,11 +4,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/bt_play"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
+        android:layout_marginTop="90dp"
+        android:text="@string/play" />
+
+    <Button
+        android:id="@+id/bt_more"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/bt_play"
+        android:layout_below="@+id/bt_play"
+        android:text="@string/more" />    
+    
+    <Button
+        android:id="@+id/bt_credits"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/bt_more"
+        android:layout_below="@+id/bt_more"
+        android:text="@string/credits" />
 
 </RelativeLayout>

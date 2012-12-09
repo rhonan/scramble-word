@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/ib_lvl_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_1"
+        android:layout_toRightOf="@+id/ib_lvl_1"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_2"
+        android:layout_toRightOf="@+id/ib_lvl_2"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_3"
+        android:layout_toRightOf="@+id/ib_lvl_3"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ib_lvl_1"
+        android:layout_below="@+id/ib_lvl_1"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_5"
+        android:layout_toRightOf="@+id/ib_lvl_5"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_6"
+        android:layout_toRightOf="@+id/ib_lvl_6"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_7"
+        android:layout_toRightOf="@+id/ib_lvl_7"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ib_lvl_5"
+        android:layout_below="@+id/ib_lvl_5"
+        android:src="@drawable/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/ib_lvl_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_9"
+        android:layout_toRightOf="@+id/ib_lvl_9"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_10"
+        android:layout_toRightOf="@+id/ib_lvl_10"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_11"
+        android:layout_toRightOf="@+id/ib_lvl_11"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ib_lvl_9"
+        android:layout_below="@+id/ib_lvl_9"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_13"
+        android:layout_toRightOf="@+id/ib_lvl_13"
+        android:src="@drawable/ic_launcher" />  
+        
+    <ImageButton
+        android:id="@+id/ib_lvl_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_14"
+        android:layout_toRightOf="@+id/ib_lvl_14"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_15"
+        android:layout_toRightOf="@+id/ib_lvl_15"
+        android:src="@drawable/ic_launcher" />  
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ib_lvl_13"
+        android:layout_below="@+id/ib_lvl_13"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_17"
+        android:layout_toRightOf="@+id/ib_lvl_17"
+        android:src="@drawable/ic_launcher" />  
+        
+    <ImageButton
+        android:id="@+id/ib_lvl_19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_18"
+        android:layout_toRightOf="@+id/ib_lvl_18"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageButton
+        android:id="@+id/ib_lvl_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_lvl_19"
+        android:layout_toRightOf="@+id/ib_lvl_19"
+        android:src="@drawable/ic_launcher" /> 
+        
+    <Button
+        android:id="@+id/bt_back_level_mode"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/menu" />    
+
+</RelativeLayout>
