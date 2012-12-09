@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.ufc.cangaco_team.scramble_world;
+package com.ufc.scramble_world.activity;
 
 public final class R {
     public static final class attr {

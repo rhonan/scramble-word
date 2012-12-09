@@ -1,4 +1,6 @@
-package com.ufc.cangaco_team.scramble_world;
+package com.ufc.scramble_world.activity;
+
+import com.ufc.scramble_world.activity.R;
 
 import android.os.Bundle;
 import android.app.Activity;
