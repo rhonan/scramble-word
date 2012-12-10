@@ -2,6 +2,9 @@ package com.ufc.scramble_world.activity;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -50,26 +53,6 @@ public class MainActivity extends Activity {
 
 			}
 		});
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(R.string.dialog_fire_missiles);
-		// Add the buttons
-		builder.setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		               // User clicked OK button
-		           }
-		       });
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		               // User cancelled the dialog
-		           }
-		       });
-		// Set other dialog properties
-
-
-		// Create the AlertDialog
-		AlertDialog dialog = builder.create();
-		dialog.show();
 
 	}
 
@@ -89,7 +72,31 @@ public class MainActivity extends Activity {
 	}
 
 	public void selectGameModeLayout() {
-		setContentView(R.layout.select_mode_game);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.choose_game_mode);
+		// Add the buttons
+		String[] gameModeOptions = {"Easy", "Normal", "Hard"};
+		builder.setItems(gameModeOptions, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(which == 0)
+					setEasyModeGameActivity();
+				if(which == 1)
+					setNormalModeGameActivity();
+				if(which == 2)
+					setHardModeGameActivity();
+			}
+			
+		});
+
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		
+		/*setContentView(R.layout.select_mode_game);
 
 		Button easy = (Button) findViewById(R.id.bt_easy);
 		easy.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +137,7 @@ public class MainActivity extends Activity {
 				setMainLayout();
 
 			}
-		});
+		});*/
 	}
 
 	public void setEasyModeGameActivity() {
