@@ -1,4 +1,4 @@
-package com.ufc.scramble_world.activity;
+package com.ufc.scramble_word.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

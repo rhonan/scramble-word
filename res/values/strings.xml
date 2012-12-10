@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ºScramble Worldº</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">ºScramble Wordº</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_easy_mode_game">EasyModeGame</string>
     <string name="menu">Voltar</string>
