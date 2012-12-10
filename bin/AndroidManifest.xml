@@ -31,7 +31,7 @@
             android:label="@string/title_activity_normal_mode_game" >
         </activity>
         <activity
-            android:name="com.HardModeGameActivity"
+            android:name="com.ufc.scramble_word.activity.HardModeGameActivity"
             android:label="@string/title_activity_hard_mode_game" >
         </activity>        
     </application>

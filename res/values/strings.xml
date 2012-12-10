@@ -4,7 +4,7 @@
     <string name="app_name">ºScramble Wordº</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_easy_mode_game">EasyModeGame</string>
-    <string name="menu">Voltar</string>
+    <string name="menu">Back</string>
     <string name="title_activity_normal_mode_game">NormalModeGame</string>
     <string name="title_activity_hard_mode_game">HardModeGame</string>
     <string name="easy">Easy</string>
@@ -15,5 +15,10 @@
     <string name="credits">Credits</string>
     <string name="credits_text">This Application was developed by CangaçoTeam®</string>
     <string name="choose_game_mode">Choose the difficult:</string>
-
+    <string name="unscramble">Unscramble</string>
+    <string name="congratulations">Congratulations</string>
+	<string name="next">Next</string>
+	<string name="facebook_share">Share on Facebook</string>
+	<string name="shared">Your score has been shared on your Facebook wall</string>
+    
 </resources>

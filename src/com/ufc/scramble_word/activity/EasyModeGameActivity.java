@@ -1,79 +1,64 @@
 package com.ufc.scramble_word.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class EasyModeGameActivity extends Activity {
-	protected ImageButton[] levels = new ImageButton[20];
-
+	
+	Chronometer chronometer;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_easy_mode_game);
 		setMainLayout();
+		chronometer = (Chronometer) findViewById(R.id.chronometer);
+		chronometer.start();
 	}
 
 	protected void setMainLayout() {
+
+		
+		
 		Button bt_level_mode = (Button) findViewById(R.id.bt_back_level_mode);
 		bt_level_mode.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				finish();
-
+				Intent intent = new Intent (EasyModeGameActivity.this, MainActivity.class);
+				startActivity(intent);
 			}
 		});
 
-		levels[0] = (ImageButton) findViewById(R.id.ib_lvl_1);
-		levels[1] = (ImageButton) findViewById(R.id.ib_lvl_2);
-		levels[2] = (ImageButton) findViewById(R.id.ib_lvl_3);
-		levels[3] = (ImageButton) findViewById(R.id.ib_lvl_4);
-		levels[4] = (ImageButton) findViewById(R.id.ib_lvl_5);
-		levels[5] = (ImageButton) findViewById(R.id.ib_lvl_6);
-		levels[6] = (ImageButton) findViewById(R.id.ib_lvl_7);
-		levels[7] = (ImageButton) findViewById(R.id.ib_lvl_8);
-		levels[8] = (ImageButton) findViewById(R.id.ib_lvl_9);
-		levels[9] = (ImageButton) findViewById(R.id.ib_lvl_10);
-		levels[10] = (ImageButton) findViewById(R.id.ib_lvl_11);
-		levels[11] = (ImageButton) findViewById(R.id.ib_lvl_12);
-		levels[12] = (ImageButton) findViewById(R.id.ib_lvl_13);
-		levels[13] = (ImageButton) findViewById(R.id.ib_lvl_14);
-		levels[14] = (ImageButton) findViewById(R.id.ib_lvl_15);
-		levels[15] = (ImageButton) findViewById(R.id.ib_lvl_16);
-		levels[16] = (ImageButton) findViewById(R.id.ib_lvl_17);
-		levels[17] = (ImageButton) findViewById(R.id.ib_lvl_18);
-		levels[18] = (ImageButton) findViewById(R.id.ib_lvl_19);
-		levels[19] = (ImageButton) findViewById(R.id.ib_lvl_20);
+		Button bt_unscramble = (Button) findViewById(R.id.bt_unscramble);
 
-		for (int i = 1; i < levels.length; i++) {
-			levels[i].setEnabled(false);
-		}
-
-		levels[0].setOnClickListener(new OnClickListener() {
+		bt_unscramble.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				setCongratulationView(true);
+				//Emular resposta errada com campo vazio
+				EditText unscrambled_word = (EditText) findViewById(R.id.et_unscrambled_word);
+				if(unscrambled_word.getText().toString().equals("")){
+					Toast.makeText(getApplicationContext(), "Wrong!", Toast.LENGTH_SHORT).show();
+				}else{
+					chronometer.stop();
+					setCongratulationView(true);
+				}
 
 			}
 		});
 
-		Button bt_next_lvl = (Button) findViewById(R.id.bt_next_lvl);
-		bt_next_lvl.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setCongratulationView(false);
-
-			}
-		});
-
+		
 	}
 
 	@Override
@@ -84,11 +69,47 @@ public class EasyModeGameActivity extends Activity {
 	}
 
 	protected void setCongratulationView(boolean value) {
-		RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_congratulations);
+		/*RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_congratulations);
 		if (value)
 			rl.setVisibility(View.VISIBLE);
 		else
 			rl.setVisibility(View.INVISIBLE);
+			*/
+		
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.congratulations);
+		// Add the buttons
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.menu, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent (EasyModeGameActivity.this, MainActivity.class);
+				startActivity(intent);			
+			}
+		});
+		builder.setNeutralButton(R.string.facebook_share, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		builder.setNegativeButton(R.string.next, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent (EasyModeGameActivity.this, EasyModeGameActivity.class);
+				startActivity(intent);
+			}
+		});
+
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
 
 	}
 }
