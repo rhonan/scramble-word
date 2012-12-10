@@ -2,11 +2,11 @@ package com.ufc.scramble_world.activity;
 
 
 
-import com.ufc.scramble_world.activity.R;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +18,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		setMainLayout();		
+		setMainLayout();
+		
 	}
 
 	@Override
@@ -49,6 +50,26 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.dialog_fire_missiles);
+		// Add the buttons
+		builder.setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               // User clicked OK button
+		           }
+		       });
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               // User cancelled the dialog
+		           }
+		       });
+		// Set other dialog properties
+
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
 
 	}
 
@@ -127,4 +148,7 @@ public class MainActivity extends Activity {
 		startActivity(launchGame);
 	}	
 
+	
+
 }
+

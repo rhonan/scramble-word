@@ -15,5 +15,8 @@
     <string name="more">More</string>
     <string name="credits">Credits</string>
     <string name="credits_text">This Application was developed by CangaçoTeam®</string>
+    <string name="cancel">Cancel</string>
+    <string name="fire">Fire</string>
+    <string name="dialog_fire_missiles">Fogo?</string>
 
 </resources>
