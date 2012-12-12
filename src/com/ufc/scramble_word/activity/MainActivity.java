@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -22,12 +21,6 @@ public class MainActivity extends Activity {
 		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
 	
 	public void setMainLayout() {
 
@@ -48,6 +41,16 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				setCreditsGameLayout();
 
+			}
+		});
+		
+		Button invite = (Button) findViewById(R.id.bt_invite);
+		invite.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setInviteActivity();
+				
 			}
 		});
 
@@ -93,48 +96,6 @@ public class MainActivity extends Activity {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 		
-		/*setContentView(R.layout.select_mode_game);
-
-		Button easy = (Button) findViewById(R.id.bt_easy);
-		easy.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setEasyModeGameActivity();
-
-			}
-		});
-
-		Button normal = (Button) findViewById(R.id.bt_normal);
-		normal.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setNormalModeGameActivity();
-
-			}
-		});
-
-		Button hard = (Button) findViewById(R.id.bt_hard);
-		hard.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setHardModeGameActivity();
- 
-			}
-		});
-
-		ImageButton mainMenu = (ImageButton) findViewById(R.id.ib_main_menu);
-		mainMenu.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				setContentView(R.layout.activity_main);
-				setMainLayout();
-
-			}
-		});*/
 	}
 
 	public void setEasyModeGameActivity() {
@@ -152,6 +113,10 @@ public class MainActivity extends Activity {
 		startActivity(launchGame);
 	}	
 
+	public void setInviteActivity(){
+		Intent launchGame = new Intent(this, InviteActivity.class);
+		startActivity(launchGame);
+	}
 	
 
 }

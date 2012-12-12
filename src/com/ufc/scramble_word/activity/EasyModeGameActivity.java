@@ -4,12 +4,10 @@ import com.ufc.scramble_word.util.Cronometro;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,8 +20,7 @@ public class EasyModeGameActivity extends Activity {
 	
 	Chronometer chronometer;
 	Cronometro cro = new Cronometro();
-	Processo processo = new Processo(this,cro);
-	
+	Processo processo = new Processo(cro);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,13 +28,13 @@ public class EasyModeGameActivity extends Activity {
 		setMainLayout();
 		chronometer = (Chronometer) findViewById(R.id.chronometer);
 		chronometer.start();
-
-		processo.execute(50, 2000, 4000);
-
-		
 	}
 	
-
+		protected void onResume(){
+			super.onResume();
+			processo.execute(50);
+		}
+	
 	protected void setMainLayout() { 
 			
 		Button bt_level_mode = (Button) findViewById(R.id.bt_back_level_mode);
@@ -71,10 +68,55 @@ public class EasyModeGameActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_easy_mode_game, menu);
-		return true;
+	public boolean onKeyDown(int keycode, KeyEvent event) {
+		if(keycode == KeyEvent.KEYCODE_MENU){
+		processo.pause();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.pause);
+		builder.setCancelable(false);
+		// Add the buttons
+		String[] gameModeOptions = {"Resume", "Audio", "Exit"};
+		builder.setItems(gameModeOptions, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(which == 0)
+					processo.start(cro);
+				if(which == 1){
+					AlertDialog.Builder confAudio = new AlertDialog.Builder(EasyModeGameActivity.this);
+					confAudio.setTitle(R.string.audio);
+					confAudio.setCancelable(false);
+					confAudio.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					confAudio.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					AlertDialog audioDialog = confAudio.create();
+					audioDialog.show();
+				}					
+				if(which == 2)
+					finish();
+			}
+			
+		});
+
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		}
+		
+		return super.onKeyDown(keycode, event);
 	}
 
 	protected void setCongratulationView(boolean value) {
@@ -96,6 +138,7 @@ public class EasyModeGameActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
+				//simulando resume
 				processo.start(cro);
 			}
 		});
@@ -104,8 +147,10 @@ public class EasyModeGameActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				cro = new Cronometro();
-				
 				processo.reset(cro);
+				EditText et = (EditText) findViewById(R.id.et_unscrambled_word);
+				et.setText(null);
+				//MŽtodo para adicionar nova palavra na tela.
 			}
 		});
 
@@ -119,10 +164,8 @@ public class EasyModeGameActivity extends Activity {
 	 public class Processo extends AsyncTask<Integer, String, Integer> {
 		  
 		 		 private boolean cronometrando = true;
-		         private Context context;
 		         private Cronometro cro;
-		         public Processo(Context context,Cronometro cro) {
-		             this.context = context;
+		         public Processo(Cronometro cro) {
 		             this.cro = cro;
 		         }
 		         
@@ -164,7 +207,6 @@ public class EasyModeGameActivity extends Activity {
 		  
 		         @Override
 		         protected void onPostExecute(Integer result) {
-		             //Cancela progressDialogo
 		         }
 
 		         @Override

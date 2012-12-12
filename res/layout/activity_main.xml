@@ -14,19 +14,19 @@
         android:text="@string/play" />
 
     <Button
-        android:id="@+id/bt_more"
+        android:id="@+id/bt_invite"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_alignLeft="@+id/bt_play"
         android:layout_below="@+id/bt_play"
-        android:text="@string/more" />    
-    
+        android:text="@string/invite" />
+
     <Button
         android:id="@+id/bt_credits"
         android:layout_width="150dp"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bt_more"
-        android:layout_below="@+id/bt_more"
+        android:layout_alignLeft="@+id/bt_invite"
+        android:layout_below="@+id/bt_invite"
         android:text="@string/credits" />
 
 </RelativeLayout>
