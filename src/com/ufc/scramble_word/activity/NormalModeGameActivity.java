@@ -78,8 +78,7 @@ protected void setCongratulationView(boolean value) {
 		
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			Intent intent = new Intent (NormalModeGameActivity.this, MainActivity.class);
-			startActivity(intent);			
+			finish();
 		}
 	});
 	builder.setNeutralButton(R.string.facebook_share, new DialogInterface.OnClickListener() {
@@ -94,7 +93,8 @@ protected void setCongratulationView(boolean value) {
 		
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			Intent intent = new Intent (NormalModeGameActivity.this, NormalModeGameActivity.class);
+			Intent intent = getIntent();
+			finish();
 			startActivity(intent);
 		}
 	});

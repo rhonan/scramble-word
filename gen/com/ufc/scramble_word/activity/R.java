@@ -17,17 +17,18 @@ public final class R {
     public static final class id {
         public static final int bt_back_level_mode=0x7f070008;
         public static final int bt_credits=0x7f070002;
-        public static final int bt_easy=0x7f07000d;
-        public static final int bt_hard=0x7f07000f;
+        public static final int bt_easy=0x7f07000e;
+        public static final int bt_hard=0x7f070010;
         public static final int bt_more=0x7f070001;
         public static final int bt_next_lvl=0x7f070005;
-        public static final int bt_normal=0x7f07000e;
+        public static final int bt_normal=0x7f07000f;
         public static final int bt_play=0x7f070000;
         public static final int bt_unscramble=0x7f07000b;
         public static final int chronometer=0x7f07000c;
+        public static final int cronometro=0x7f07000d;
         public static final int et_unscrambled_word=0x7f07000a;
         public static final int ib_main_menu=0x7f070007;
-        public static final int menu_settings=0x7f070010;
+        public static final int menu_settings=0x7f070011;
         public static final int rl_congratulations=0x7f070003;
         public static final int tv_congratulations=0x7f070004;
         public static final int tv_credits=0x7f070006;

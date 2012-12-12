@@ -57,23 +57,6 @@ public class Cronometro extends Thread {
 		return (minuto + ":" + segundo + ":" + mile);
 	}
 
-	/**
-	 * @param args
-	 * @throws Throwable
-	 */
-	
-	public static void main(String[] args) throws Throwable {
-		Cronometro cro = new Cronometro();
-		cro.start();
-		sleep(3000);
-		cro.pausar();
-		System.out.println(cro.show());	
-		sleep(5000);
-		cro.iniciar();
-		System.out.println(cro.show());
-		cro.show();
-		cro.stop();
 
-	}
 
 }
