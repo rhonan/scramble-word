@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/bt_back_level_mode"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/menu" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_back_level_mode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="105dp"
+        android:ems="10"
+        android:text="" />
+
+    <Button
+        android:id="@+id/bt_send_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoCompleteTextView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        android:text="@string/send" />
+
+    <TextView
+        android:id="@+id/tv_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/autoCompleteTextView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp"
+        android:text="@string/invite_info" />
+
+</RelativeLayout>
