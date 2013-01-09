@@ -15,7 +15,7 @@
         android:text="@string/menu" />
 
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView1"
+        android:id="@+id/autoCompleteTextViewContato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_back_level_mode"
@@ -28,18 +28,18 @@
         android:id="@+id/bt_send_invite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/autoCompleteTextView1"
+        android:layout_below="@+id/autoCompleteTextViewContato"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="58dp"
         android:text="@string/send" />
 
     <TextView
         android:id="@+id/tv_invite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/autoCompleteTextView1"
+        android:layout_below="@+id/bt_back_level_mode"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
+        android:layout_marginTop="29dp"
         android:text="@string/invite_info" />
 
 </RelativeLayout>
