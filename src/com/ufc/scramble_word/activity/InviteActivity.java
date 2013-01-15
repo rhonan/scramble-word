@@ -1,14 +1,18 @@
 package com.ufc.scramble_word.activity;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle.Control;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -18,6 +22,8 @@ import android.widget.Button;
 public class InviteActivity extends Activity {
 		
 	private AutoCompleteTextView contato;
+	
+
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,8 +62,13 @@ public class InviteActivity extends Activity {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						
+						Intent intent = new Intent(Intent.ACTION_SEND);
+						intent.setType("plain/text");
+						String email = getEmail(contato.getText().toString());
+						intent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+						intent.putExtra(Intent.EXTRA_SUBJECT, "You have been invited to play Scramble Word!");
+						intent.putExtra(Intent.EXTRA_TEXT, "Come play Scramble Word with me! Download at: www.site.com");
+						startActivity(Intent.createChooser(intent, ""));
 					}
 				});
 				
@@ -70,29 +81,32 @@ public class InviteActivity extends Activity {
     
 	private String[] carregaInformacoesDosContatos(){
 
-		Log.d("NovoEmprestimo","Carregar informações dos contatos");
 		ArrayList<String> contatos = new ArrayList<String>();
 
-//		String[] camposContato = new String[]{
-//				ContactsContract.Contacts._ID,
-//				ContactsContract.Contacts.DISPLAY_NAME,
-//				ContactsContract.Contacts.PHOTO_ID
-//		};
-
+		
+		
 		Cursor informacoesContatos = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.Contacts.DISPLAY_NAME);
-
+		
+		
 		informacoesContatos.moveToFirst();
 
 		while ( !informacoesContatos.isAfterLast()) {
 			contatos.add( informacoesContatos.getString(informacoesContatos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)) );
-			Log.d("NovoEmprestimo","Contato: " + informacoesContatos.getString(informacoesContatos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)) );
-
+			
+			
 			informacoesContatos.moveToNext();
 
 		}
 
 		return contatos.toArray( new String[contatos.size()] );
 
+	}
+	
+	private String getEmail(String contato){
+		String email;
+		
+		
+		return email;
 	}
     
 }
