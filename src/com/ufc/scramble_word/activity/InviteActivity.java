@@ -34,13 +34,13 @@ public class InviteActivity extends Activity {
 		
     }
     
-    public void onResume(Context context){
+    public void onResume(){
     	this.mReceiver = new InternetBroadcastReceiver();
     	registerReceiver(this.mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     	super.onResume();
     }
     
-    public void onPause(Context context){
+    public void onPause(){
     	unregisterReceiver(mReceiver);
     	super.onPause();
 
