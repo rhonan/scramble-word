@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,9 +20,9 @@ import android.widget.Button;
 
 public class InviteActivity extends Activity {
 		
-	private AutoCompleteTextView contato;
-	private InternetBroadcastReceiver mReceiver;
-	
+	AutoCompleteTextView contato;
+	InternetBroadcastReceiver broadcastReceiver = new InternetBroadcastReceiver();
+	IntentFilter intentFilter;
 	
     
     public void onCreate(Bundle savedInstanceState) {
@@ -35,15 +34,16 @@ public class InviteActivity extends Activity {
     }
     
     public void onResume(){
-    	this.mReceiver = new InternetBroadcastReceiver();
-    	registerReceiver(this.mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     	super.onResume();
+    	intentFilter = new IntentFilter();
+    	intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+    	registerReceiver(broadcastReceiver, intentFilter);
     }
     
     public void onPause(){
-    	unregisterReceiver(mReceiver);
     	super.onPause();
-
+    	this.unregisterReceiver(broadcastReceiver);
+    	
     }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
