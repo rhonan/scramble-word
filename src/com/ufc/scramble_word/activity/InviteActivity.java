@@ -1,17 +1,17 @@
 package com.ufc.scramble_word.activity;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle.Control;
+import com.ufc.scramble_word.broadcastreceiver.InternetBroadcastReceiver;
 
-import android.net.Uri;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,16 +22,46 @@ import android.widget.Button;
 public class InviteActivity extends Activity {
 		
 	private AutoCompleteTextView contato;
+	private InternetBroadcastReceiver mReceiver;
 	
-
 	
-    @Override
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_a_friend);
         getApplicationContext();
         setGameLayout();
 		
+    }
+    
+    public void onResume(Context context){
+    	this.mReceiver = new InternetBroadcastReceiver();
+    	registerReceiver(this.mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    	super.onResume();
+    }
+    
+    public void onPause(Context context){
+    	unregisterReceiver(mReceiver);
+    	super.onPause();
+
+    }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+		AlertDialog.Builder builder = new AlertDialog.Builder(InviteActivity.this);
+		builder.setTitle(R.string.invite_sent);
+		// Add the buttons
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			
+			
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		
+		
+		AlertDialog dialog = builder.create();
+		dialog.show();
     }
 
     public void setGameLayout(){
@@ -52,32 +82,24 @@ public class InviteActivity extends Activity {
 		
 		bt_invite.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(InviteActivity.this);
-				builder.setTitle(R.string.invite_sent);
-				// Add the buttons
-				builder.setCancelable(false);
-				builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(Intent.ACTION_SEND);
-						intent.setType("plain/text");
-						String email = getEmail(contato.getText().toString());
-						intent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
-						intent.putExtra(Intent.EXTRA_SUBJECT, "You have been invited to play Scramble Word!");
-						intent.putExtra(Intent.EXTRA_TEXT, "Come play Scramble Word with me! Download at: www.site.com");
-						startActivity(Intent.createChooser(intent, ""));
-					}
-				});
+				int requestCode = 1;
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("plain/text");
+				String email = getEmail(contato.getText().toString());
+				intent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+				intent.putExtra(Intent.EXTRA_SUBJECT, "You have been invited to play Scramble Word!");
+				intent.putExtra(Intent.EXTRA_TEXT, "Come play Scramble Word with me! Download at: www.site.com");
+				startActivityForResult(intent, requestCode);
 				
-				AlertDialog dialog = builder.create();
-				dialog.show();
+
 			}
 		});
 		
     }
+    
+    
+    
     
 	private String[] carregaInformacoesDosContatos(){
 
@@ -85,13 +107,13 @@ public class InviteActivity extends Activity {
 
 		
 		
-		Cursor informacoesContatos = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.Contacts.DISPLAY_NAME);
+		Cursor informacoesContatos = this.getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Email.DATA1);
 		
 		
 		informacoesContatos.moveToFirst();
 
 		while ( !informacoesContatos.isAfterLast()) {
-			contatos.add( informacoesContatos.getString(informacoesContatos.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)) );
+			contatos.add( informacoesContatos.getString(informacoesContatos.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA1)) );
 			
 			
 			informacoesContatos.moveToNext();
@@ -103,7 +125,7 @@ public class InviteActivity extends Activity {
 	}
 	
 	private String getEmail(String contato){
-		String email;
+		String email = contato;
 		
 		
 		return email;
