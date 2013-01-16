@@ -21,7 +21,7 @@ import android.widget.Button;
 public class InviteActivity extends Activity {
 		
 	AutoCompleteTextView contato;
-	InternetBroadcastReceiver broadcastReceiver = new InternetBroadcastReceiver();
+	InternetBroadcastReceiver broadcastReceiver;
 	IntentFilter intentFilter;
 	
     
@@ -30,13 +30,13 @@ public class InviteActivity extends Activity {
         setContentView(R.layout.activity_invite_a_friend);
         getApplicationContext();
         setGameLayout();
-		
+        broadcastReceiver = new InternetBroadcastReceiver();
+    	intentFilter = new IntentFilter();
+    	intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
     }
     
     public void onResume(){
     	super.onResume();
-    	intentFilter = new IntentFilter();
-    	intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
     	registerReceiver(broadcastReceiver, intentFilter);
     }
     
