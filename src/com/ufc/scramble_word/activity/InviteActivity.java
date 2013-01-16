@@ -25,22 +25,24 @@ public class InviteActivity extends Activity {
 	Button bt_invite;
 	Button bt_try;
 	AutoCompleteTextView contato;
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-    		NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
-    		
-    		if(currentNetworkInfo.isConnected()){
-    			Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
-    			bt_invite.setVisibility(Button.VISIBLE);
-    			bt_try.setVisibility(Button.INVISIBLE);    			
-    		}else{
-    			Toast.makeText(context, "Not Connected", Toast.LENGTH_LONG).show();	
-    			bt_invite.setVisibility(Button.INVISIBLE);
-    			bt_try.setVisibility(Button.VISIBLE);    			
-    		}        	       	
-        }
-   };
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			NetworkInfo currentNetworkInfo = (NetworkInfo) intent
+					.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+			if (currentNetworkInfo.isConnected()) {
+				Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
+				bt_invite.setVisibility(Button.VISIBLE);
+				bt_try.setVisibility(Button.INVISIBLE);
+			} else {
+				Toast.makeText(context, "Not Connected", Toast.LENGTH_LONG)
+						.show();
+				bt_invite.setVisibility(Button.INVISIBLE);
+				bt_try.setVisibility(Button.VISIBLE);
+			}
+		}
+	};
 	IntentFilter intentFilter;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,6 @@ public class InviteActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		registerReceiver(receiver, intentFilter);
-		internet();
 
 	}
 
@@ -85,6 +86,8 @@ public class InviteActivity extends Activity {
 	}
 
 	public void setGameLayout() {
+		bt_try = (Button) findViewById(R.id.bt_try);
+		bt_invite = (Button) findViewById(R.id.bt_send_invite);
 		Button bt_level_mode = (Button) findViewById(R.id.bt_back_level_mode);
 		bt_level_mode.setOnClickListener(new OnClickListener() {
 			@Override
@@ -93,17 +96,13 @@ public class InviteActivity extends Activity {
 			}
 		});
 
-		
 		contato = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewContato);
 
 		ArrayAdapter<String> adpterContatos = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line,
 				this.carregaInformacoesDosContatos());
 		contato.setAdapter(adpterContatos);
-		
-		bt_try = (Button) findViewById(R.id.bt_try);		
 
-		bt_invite = (Button) findViewById(R.id.bt_send_invite);
 		bt_invite.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -120,17 +119,9 @@ public class InviteActivity extends Activity {
 
 			}
 		});
-		
-		internet();
 
 	}
-	private void internet()
-	{
-		bt_try = (Button) findViewById(R.id.bt_try);		
-		bt_invite = (Button) findViewById(R.id.bt_send_invite);
 
-
-	}
 	private String[] carregaInformacoesDosContatos() {
 
 		ArrayList<String> contatos = new ArrayList<String>();
