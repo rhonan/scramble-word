@@ -8,15 +8,21 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 public class InternetBroadcastReceiver extends BroadcastReceiver{
-	
+	private boolean internet;	
 	public void onReceive(Context context, Intent intent) {
+		
 
 		NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
 		
 		if(currentNetworkInfo.isConnected()){
 			Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
+			internet = true;
 		}else{
 			Toast.makeText(context, "Not Connected", Toast.LENGTH_LONG).show();
+			internet = false;			
 		}
+	}
+	public boolean isInternet() {
+		return internet;
 	}
 	}
