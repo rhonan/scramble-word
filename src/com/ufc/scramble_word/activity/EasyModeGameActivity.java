@@ -1,5 +1,9 @@
 package com.ufc.scramble_word.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.ufc.scramble_word.database.DatabaseController;
 import com.ufc.scramble_word.util.Cronometro;
 
 import android.app.Activity;
@@ -21,9 +25,26 @@ public class EasyModeGameActivity extends Activity {
 	Chronometer chronometer;
 	Cronometro cro = new Cronometro();
 	Processo processo = new Processo(cro);
+	
+	/* SQLite */
+	private TextView tv_scramble_word;
+	private DatabaseController controller;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		tv_scramble_word = (TextView) findViewById(R.id.tv_scramble_word);
+		controller = new DatabaseController(getApplicationContext());
+		
+		try {
+			JSONObject palavra = controller.randomPalavra();
+			String palavra_palavra = palavra.getString("palavra");
+			tv_scramble_word.setText(palavra_palavra);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+				
 		setContentView(R.layout.activity_easy_mode_game);
 		setMainLayout();
 		chronometer = (Chronometer) findViewById(R.id.chronometer);
