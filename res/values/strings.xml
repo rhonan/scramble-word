@@ -31,5 +31,6 @@
     <string name="title_activity_invite">InviteActivity</string>
     <string name="invite_info">Type an e-mail to send the invite:</string>
     <string name="invite_sent">Invite sent</string>
+    <string name="try_again">Try again</string>
 
 </resources>
