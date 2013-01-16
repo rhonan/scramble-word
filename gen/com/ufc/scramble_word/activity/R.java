@@ -17,24 +17,25 @@ public final class R {
     public static final class id {
         public static final int autoCompleteTextViewContato=0x7f060001;
         public static final int bt_back_level_mode=0x7f060000;
-        public static final int bt_credits=0x7f060006;
-        public static final int bt_easy=0x7f060011;
-        public static final int bt_hard=0x7f060013;
-        public static final int bt_invite=0x7f060005;
-        public static final int bt_next_lvl=0x7f060009;
-        public static final int bt_normal=0x7f060012;
-        public static final int bt_play=0x7f060004;
+        public static final int bt_credits=0x7f060007;
+        public static final int bt_easy=0x7f060012;
+        public static final int bt_hard=0x7f060014;
+        public static final int bt_invite=0x7f060006;
+        public static final int bt_next_lvl=0x7f06000a;
+        public static final int bt_normal=0x7f060013;
+        public static final int bt_play=0x7f060005;
         public static final int bt_send_invite=0x7f060002;
-        public static final int bt_unscramble=0x7f06000e;
-        public static final int chronometer=0x7f06000f;
-        public static final int cronometro=0x7f060010;
-        public static final int et_unscrambled_word=0x7f06000d;
-        public static final int ib_main_menu=0x7f06000b;
-        public static final int rl_congratulations=0x7f060007;
-        public static final int tv_congratulations=0x7f060008;
-        public static final int tv_credits=0x7f06000a;
-        public static final int tv_invite=0x7f060003;
-        public static final int tv_scramble_word=0x7f06000c;
+        public static final int bt_try=0x7f060003;
+        public static final int bt_unscramble=0x7f06000f;
+        public static final int chronometer=0x7f060010;
+        public static final int cronometro=0x7f060011;
+        public static final int et_unscrambled_word=0x7f06000e;
+        public static final int ib_main_menu=0x7f06000c;
+        public static final int rl_congratulations=0x7f060008;
+        public static final int tv_congratulations=0x7f060009;
+        public static final int tv_credits=0x7f06000b;
+        public static final int tv_invite=0x7f060004;
+        public static final int tv_scramble_word=0x7f06000d;
     }
     public static final class layout {
         public static final int activity_easy_mode_game=0x7f030000;

@@ -1,67 +1,70 @@
 package com.ufc.scramble_word.activity;
 
 import java.util.ArrayList;
-import com.ufc.scramble_word.broadcastreceiver.InternetBroadcastReceiver;
 
-import android.net.ConnectivityManager;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class InviteActivity extends Activity {
-
+	Button bt_invite;
+	Button bt_try;
 	AutoCompleteTextView contato;
-	InternetBroadcastReceiver broadcastReceiver;
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+    		NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+    		
+    		if(currentNetworkInfo.isConnected()){
+    			Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
+    			bt_invite.setVisibility(Button.VISIBLE);
+    			bt_try.setVisibility(Button.INVISIBLE);    			
+    		}else{
+    			Toast.makeText(context, "Not Connected", Toast.LENGTH_LONG).show();	
+    			bt_invite.setVisibility(Button.INVISIBLE);
+    			bt_try.setVisibility(Button.VISIBLE);    			
+    		}        	       	
+        }
+   };
 	IntentFilter intentFilter;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invite_a_friend);
 		getApplicationContext();
-		setGameLayout();
-		broadcastReceiver = new InternetBroadcastReceiver();
 		intentFilter = new IntentFilter();
 		intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-		setMainLayout();
-		
+		setGameLayout();
+
 	}
 
 	public void onResume() {
 		super.onResume();
-		registerReceiver(broadcastReceiver, intentFilter);
+		registerReceiver(receiver, intentFilter);
+		internet();
+
 	}
 
 	public void onPause() {
 		super.onPause();
-		this.unregisterReceiver(broadcastReceiver);
+		this.unregisterReceiver(receiver);
 
 	}
-	
-	public void setMainLayout() {
-		if(broadcastReceiver.isInternet())
-		{
-		Button send = (Button) findViewById(R.id.bt_send_invite);
-		send.setVisibility(Button.VISIBLE);
-		}
-		else
-		{
-			Button send = (Button) findViewById(R.id.bt_send_invite);
-			send.setVisibility(Button.INVISIBLE);			
-		}
-
-
-	}
-	
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -90,15 +93,17 @@ public class InviteActivity extends Activity {
 			}
 		});
 
+		
 		contato = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewContato);
 
 		ArrayAdapter<String> adpterContatos = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line,
 				this.carregaInformacoesDosContatos());
 		contato.setAdapter(adpterContatos);
+		
+		bt_try = (Button) findViewById(R.id.bt_try);		
 
-		Button bt_invite = (Button) findViewById(R.id.bt_send_invite);
-
+		bt_invite = (Button) findViewById(R.id.bt_send_invite);
 		bt_invite.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -115,9 +120,17 @@ public class InviteActivity extends Activity {
 
 			}
 		});
+		
+		internet();
 
 	}
+	private void internet()
+	{
+		bt_try = (Button) findViewById(R.id.bt_try);		
+		bt_invite = (Button) findViewById(R.id.bt_send_invite);
 
+
+	}
 	private String[] carregaInformacoesDosContatos() {
 
 		ArrayList<String> contatos = new ArrayList<String>();
