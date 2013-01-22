@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MensagemActivity" >
+
+    <Button
+        android:id="@+id/bt_desconectar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Desconectar" />
+
+    <EditText
+        android:id="@+id/et_palavra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_palavra"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+    </EditText>
+
+    <Button
+        android:id="@+id/bt_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bt_desconectar"
+        android:layout_alignLeft="@+id/bt_desconectar"
+        android:layout_alignRight="@+id/bt_desconectar"
+        android:text="Enviar" />
+
+    <TextView
+        android:id="@+id/tv_palavra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Palavra"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bt_enviar"
+        android:layout_alignLeft="@+id/tv_palavra"
+        android:layout_alignRight="@+id/bt_enviar"
+        android:layout_marginBottom="38dp"
+        android:text="status" />
+
+</RelativeLayout>

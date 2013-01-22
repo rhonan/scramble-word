@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,55 +14,47 @@ import android.os.Message;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.ufc.scramble_word.util.Server;
-
+@SuppressLint("HandlerLeak")
 public class ServerActivity extends Activity {
-    
+
 	TextView lbStatus;
-	private static final int PORTA = 1234;
-	public static final int WAITING = 1;
-	public static final int CONECTED = 2;
-	public static final int DESCONECTED = 3;
-	private ServerSocket serverSocket;
-	private Socket socket=null;
-	private String mensagem;
-	private Message msg;
-	private DataInputStream in;
-	private DataOutputStream out;
 	private Thread server = null;
+	private Message msg;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			// Verifica mensagem do Handler e mostra na tela
 			synchronized (msg) {
 				switch (msg.arg1) {
-				case CONECTED:
+				case ServerApp.CONECTED:
 					lbStatus.setText("Conectado");
 					break;
-				case DESCONECTED:
+				case ServerApp.DESCONECTED:
 					lbStatus.setText("Desconectado");
 					break;
-				case WAITING:
+				case ServerApp.WAITING:
 					lbStatus.setText("Aguardando....");
-					break;					
+					break;
 
 				}
 			}
 		};
 
-	};	
-    
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_server);
 		lbStatus = (TextView) findViewById(R.id.tv_status);
-        msg = new Message();
-        msg.arg1 = WAITING;
-        handler.sendMessage(msg);
-        this.server = new Thread(new ServerApp());
-        this.server.start();
-        
-		
+		msg = new Message();
+		msg.arg1 = ServerApp.WAITING;
+		handler.sendMessage(msg);
+		try {
+			this.server = new Thread(new ServerApp(handler));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.server.start();
 
 	}
 
@@ -71,31 +64,54 @@ public class ServerActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_server, menu);
 		return true;
 	}
-	
+
 	class ServerApp implements Runnable {
-	    public void run() {
-	        try {
-	        	serverSocket = new ServerSocket(PORTA );
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        while (!Thread.currentThread().isInterrupted()) {
-	            try {
-	                if (socket == null)
-	                    socket = serverSocket.accept();
-		            msg = new Message();
-		            msg.arg1 = CONECTED;
-	                handler.sendMessage(msg);
-	        		in = new DataInputStream(socket.getInputStream());
-	        		out = new DataOutputStream(socket.getOutputStream());
+		private static final int PORTA = 12345;
+		public static final int WAITING = 1;
+		public static final int CONECTED = 2;
+		public static final int DESCONECTED = 3;
+		private ServerSocket serverSocket;
+		private Socket socket = null;
+		private String mensagem;
+		private Message msg;
+		private DataInputStream in;
+		private DataOutputStream out;
+		private Handler handler;
+
+		public ServerApp(Handler handler) throws IOException {
+			this.handler = handler;
+			try {
+				serverSocket = new ServerSocket(PORTA);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		public void run() {
+			if (socket == null)
+				try {
+					socket = serverSocket.accept();
+					in = new DataInputStream(socket.getInputStream());
+					out = new DataOutputStream(socket.getOutputStream());					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					msg = new Message();
+					msg.arg1 = CONECTED;
+					handler.sendMessage(msg);
 					mensagem = in.readUTF();
-					out.writeUTF(mensagem); // Escreve mensagem
+					out.writeUTF(mensagem);
 					out.flush();
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-	    }	
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 }
