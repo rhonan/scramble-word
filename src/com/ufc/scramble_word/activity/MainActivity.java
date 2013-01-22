@@ -25,8 +25,21 @@ public class MainActivity extends Activity {
 	public void setMainLayout() {
 
 		Button play = (Button) findViewById(R.id.bt_play);
-		play.setOnClickListener(new View.OnClickListener() {
+		
+		Button versus = (Button) findViewById(R.id.bt_versus);
+		
+		versus.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v){
+				selectGameVersus();
+			}
+			
+		});
 
+		
+		play.setOnClickListener(new View.OnClickListener() {
+		
+			
+			
 			@Override
 			public void onClick(View v) {
 				selectGameModeLayout();
@@ -96,6 +109,39 @@ public class MainActivity extends Activity {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 		
+	}
+	
+	public void selectGameVersus(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.versus);
+		// Add the buttons
+		String[] gameModeOptions = {"Client", "Server"};
+		builder.setItems(gameModeOptions, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(which == 0)
+					setClienteActivity();
+				if(which == 1)
+					setServerActivity();
+			}
+			
+		});
+
+
+		// Create the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+	
+	public void setClienteActivity(){
+		Intent launchGame = new Intent(this, ClienteActivity.class);
+		startActivity(launchGame);
+	}
+	
+	public void setServerActivity(){
+		Intent launchGame = new Intent(this, ServerActivity.class);
+		startActivity(launchGame);
 	}
 
 	public void setEasyModeGameActivity() {

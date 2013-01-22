@@ -5,28 +5,37 @@
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/bt_play"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"
-        android:text="@string/play" />
-
-    <Button
-        android:id="@+id/bt_invite"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_alignLeft="@+id/bt_play"
-        android:layout_below="@+id/bt_play"
-        android:text="@string/invite" />
-
-    <Button
         android:id="@+id/bt_credits"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_alignLeft="@+id/bt_invite"
         android:layout_below="@+id/bt_invite"
         android:text="@string/credits" />
+
+    <Button
+        android:id="@+id/bt_invite"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/bt_versus"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="208dp"
+        android:text="@string/invite" />
+
+    <Button
+        android:id="@+id/bt_versus"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/bt_invite"
+        android:layout_alignLeft="@+id/bt_play"
+        android:layout_marginBottom="38dp"
+        android:text="@string/versus" />
+
+    <Button
+        android:id="@+id/bt_play"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/bt_versus"
+        android:layout_centerHorizontal="true"
+        android:text="@string/play" />
 
 </RelativeLayout>

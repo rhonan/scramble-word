@@ -32,5 +32,8 @@
     <string name="invite_info">Type an e-mail to send the invite:</string>
     <string name="invite_sent">Invite sent</string>
     <string name="try_again">Try again</string>
+    <string name="versus">Versus</string>
+    <string name="title_activity_cliente">ClienteActivity</string>
+    <string name="title_activity_server">ServerActivity</string>
 
 </resources>
