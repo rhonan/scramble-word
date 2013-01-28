@@ -18,21 +18,23 @@ public class ConnectionSocket {
     public static final int CONNECTED = 1;
     public static final int ERROR = 2;
     public static final int SENDING_MESSAGE = 3;
-    public static final int DISCONNECTED = 4;
+    public static final int MESSAGE_RECIVED = 4;    
+    public static final int DISCONNECTED = 5;
     private Message msg;
     private DataOutputStream out;
     private DataInputStream in;    
-    private Handler handlerSender; // Handle para notificações na tela
+    private Handler handler; // Handle para notificações na tela
 
     
-    private ConnectionSocket(String host, String porta) {
+    private ConnectionSocket(String host, String porta, Handler handler) {
         this.host = host;
         this.porta = Integer.parseInt(porta);
+        this.handler = handler;
     }
 
     // Método que cria Objecto ConnectionSocket
-    public static ConnectionSocket createConnection(String host, String porta) {
-        connection = new ConnectionSocket(host, porta);
+    public static ConnectionSocket createConnection(String host, String porta,Handler handler) {
+        connection = new ConnectionSocket(host, porta,handler);
         return connection;
     }
 
@@ -49,15 +51,14 @@ public class ConnectionSocket {
     }
 
     // Inicia Thread para envio de mensagens
-    public void startSender(Handler handler) {
+    public void startSender() {
         sender = new Sender(out, handler);
         new Thread(sender).start();
-        this.handlerSender = handler;
     }
     
     // Inicia Thread para recebimento de mensagens    
-    public void startReceiver() {
-        receiver = new Receiver(in);
+    public void startReceiver () {
+        receiver = new Receiver(in,handler);
         new Thread(receiver).start();
     }    
 
@@ -76,10 +77,10 @@ public class ConnectionSocket {
         sender.disconnect();
         receiver.disconnect();
         socket.close();
-        if (handlerSender != null) {
+        if (handler != null) {
             msg = new Message();
             msg.arg1 = ConnectionSocket.DISCONNECTED;
-            handlerSender.sendMessage(msg);
+            handler.sendMessage(msg);
         }
 
     }

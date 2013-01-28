@@ -1,11 +1,5 @@
 package com.ufc.scramble_word.activity;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.widget.TextView;
+
+import com.ufc.scramble_word.util.ServidorAndroid;
 
 @SuppressLint("HandlerLeak")
 public class ServerActivity extends Activity {
@@ -24,13 +20,13 @@ public class ServerActivity extends Activity {
 		public void handleMessage(android.os.Message msg) {
 			synchronized (msg) {
 				switch (msg.arg1) {
-				case ServerApp.CONECTED:
+				case ServidorAndroid.CONECTED:
 					lbStatus.setText("Conectado");
 					break;
-				case ServerApp.DESCONECTED:
+				case ServidorAndroid.DESCONECTED:
 					lbStatus.setText("Desconectado");
 					break;
-				case ServerApp.WAITING:
+				case ServidorAndroid.WAITING:
 					lbStatus.setText("Aguardando....");
 					break;
 
@@ -46,17 +42,43 @@ public class ServerActivity extends Activity {
 		setContentView(R.layout.activity_server);
 		lbStatus = (TextView) findViewById(R.id.tv_status);
 		msg = new Message();
-		msg.arg1 = ServerApp.WAITING;
+		msg.arg1 = ServidorAndroid.WAITING;
 		handler.sendMessage(msg);
-		try {
-			this.server = new Thread(new ServerApp(handler));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.server = new Thread(new ServidorAndroid(handler));
 		this.server.start();
 
 	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,53 +87,5 @@ public class ServerActivity extends Activity {
 		return true;
 	}
 
-	class ServerApp implements Runnable {
-		private static final int PORTA = 12345;
-		public static final int WAITING = 1;
-		public static final int CONECTED = 2;
-		public static final int DESCONECTED = 3;
-		private ServerSocket serverSocket;
-		private Socket socket = null;
-		private String mensagem;
-		private Message msg;
-		private DataInputStream in;
-		private DataOutputStream out;
-		private Handler handler;
-
-		public ServerApp(Handler handler) throws IOException {
-			this.handler = handler;
-			try {
-				serverSocket = new ServerSocket(PORTA);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-
-		public void run() {
-			if (socket == null)
-				try {
-					socket = serverSocket.accept();
-					in = new DataInputStream(socket.getInputStream());
-					out = new DataOutputStream(socket.getOutputStream());					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-			while (!Thread.currentThread().isInterrupted()) {
-				try {
-					msg = new Message();
-					msg.arg1 = CONECTED;
-					handler.sendMessage(msg);
-					mensagem = in.readUTF();
-					out.writeUTF(mensagem);
-					out.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
 
 }

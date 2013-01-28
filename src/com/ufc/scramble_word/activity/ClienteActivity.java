@@ -1,7 +1,7 @@
 package com.ufc.scramble_word.activity;
 
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -10,9 +10,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ufc.scramble_word.util.ConnectionSocket;
+
+
 
 public class ClienteActivity extends Activity {
 	private TextView lbStatus;
@@ -21,35 +22,42 @@ public class ClienteActivity extends Activity {
 	private EditText edMensagem;
 	private Button btnDesconectar;
 	private Button bt_ok;
+	ConnectionSocket connection;	
+
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			// Verifica mensagem do Handler e mostra na tela
 			synchronized (msg) {
 				switch (msg.arg1) {
-				case ConnectionSocket.CONNECTED:
+				case ConnectionSocket.CONNECTED: {
 					lbStatus.setText("Conectado");
 					break;
-				case ConnectionSocket.SENDING_MESSAGE:
-					{
+				}
+				case ConnectionSocket.SENDING_MESSAGE: {
 					lbStatus.setText("Enviou Mensagem");
-					edMensagem.setText("");
-					palavra = ConnectionSocket.getCurentConnection().getMessage();
-					lbPalavra.setText(palavra);					
-					}
+					edMensagem.setText("");		
 					break;
-				case ConnectionSocket.ERROR:
+				}
+				case ConnectionSocket.MESSAGE_RECIVED: {
+					lbStatus.setText("recebeu Mensagem");
+					palavra = ConnectionSocket.getCurentConnection()
+							.getMessage();
+					lbPalavra.setText(palavra);
+					break;
+				}
+				case ConnectionSocket.ERROR: {
 					lbStatus.setText("Ocorreu um erro->" + msg.obj);
 					break;
-				case ConnectionSocket.DISCONNECTED:
+				}
+				case ConnectionSocket.DISCONNECTED: {
 					lbStatus.setText("Servidor->Desconectou");
 					break;
+				}
 
 				}
 			}
 		};
 
 	};
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +74,9 @@ public class ClienteActivity extends Activity {
 				try {
 					EditText ip = (EditText) findViewById(R.id.et_ip);
 					EditText porta = (EditText) findViewById(R.id.et_porta);
-					ConnectionSocket connection = ConnectionSocket
+					connection = ConnectionSocket
 							.createConnection(ip.getText().toString(), porta
-									.getText().toString());
+									.getText().toString(),handler);
 					connection.connect();
 					mensagem();
 
@@ -85,9 +93,9 @@ public class ClienteActivity extends Activity {
 		lbStatus = (TextView) findViewById(R.id.tv_status);
 		lbPalavra = (TextView) findViewById(R.id.tv_palavra);
 		edMensagem = (EditText) findViewById(R.id.et_palavra);
-		ConnectionSocket.getCurentConnection().startSender(handler);
+		ConnectionSocket.getCurentConnection().startSender();
 		ConnectionSocket.getCurentConnection().startReceiver();
-		
+
 		bt_ok = (Button) findViewById(R.id.bt_ok);
 		bt_ok.setOnClickListener(new OnClickListener() {
 
@@ -115,7 +123,6 @@ public class ClienteActivity extends Activity {
 		});
 
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
