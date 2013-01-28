@@ -1,62 +1,79 @@
 package com.ufc.scramble_word.util;
-public class Cronometro extends Thread {
-	private long tempo;
-	private long tempoInicio;
-	private long tempoDecorrido;
-	private boolean cronometrando;
 
-	public Cronometro() {
-		tempo = 0;
-		tempoInicio = System.currentTimeMillis();
-		tempoDecorrido = 0;
-		cronometrando = true;
-	}
+import android.os.AsyncTask;
+import android.widget.TextView;
 
-	@Override
-	public void run() {
-		try {
-			while (true) {
-				if (cronometrando) {
-					tempo = System.currentTimeMillis() - tempoInicio
-							+ tempoDecorrido;
+	public class Cronometro extends AsyncTask<Void, Void, Void> {
+
+		private long tempo;
+		private long tempoInicio;
+		private long tempoDecorrido;
+		private boolean cronometrando;
+		private TextView texto;
+
+		public Cronometro(TextView texto) {
+			tempo = 0;
+			tempoInicio = System.currentTimeMillis();
+			tempoDecorrido = 0;
+			cronometrando = true;
+			this.texto = texto;
+		}
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected Void doInBackground(Void... paramss) {
+			try {
+				while (!isCancelled()) {
+					if (cronometrando) {
+						tempo = System.currentTimeMillis() - tempoInicio
+								+ tempoDecorrido;
+
+						Thread.sleep(1);
+						publishProgress();
+					}
 				}
-				Thread.sleep(1);
-
+			} catch (InterruptedException ex) {
+				// ex.printStackTrace();
 			}
-		} catch (InterruptedException ex) {
-			// ex.printStackTrace();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			long time = tempo;
+			long minuto = 0;
+			long segundo = 0;
+			long mile = 0;
+			mile = time % 1000;
+			time = time - mile;
+			segundo = (time / 1000);
+			minuto = (segundo - (segundo % 60)) / 60;
+			segundo = segundo % 60;
+
+			texto.setText(minuto + ":" + segundo + ":" + mile);
+		}
+
+		public void reset() {
+			cronometrando = false;
+			tempoInicio = 0;
+			tempoDecorrido = 0;
+		}
+
+		public void pause() {
+			cronometrando = false;
+			tempoDecorrido = tempo;
+		}
+
+		public void start() {
+			cronometrando = true;
+			tempoInicio = System.currentTimeMillis();
 		}
 	}
 
-	public void pausar() {
-		cronometrando = false;
-		tempoDecorrido = tempo;
-	}
-
-	public void iniciar() {
-		cronometrando = true;
-		tempoInicio = System.currentTimeMillis();
-	}
-
-	public void zerar() {
-		tempoInicio = 0;
-		tempoDecorrido = 0;
-	}
-
-	public String show() {
-		long time = tempo;
-		long minuto = 0;
-		long segundo = 0;
-		long mile = 0;
-		mile = time % 1000;
-		time = time - mile;
-		segundo = (time / 1000);
-		minuto = (segundo - (segundo % 60)) / 60;
-		segundo = segundo % 60;
-
-		return (minuto + ":" + segundo + ":" + mile);
-	}
-
-
-
-}

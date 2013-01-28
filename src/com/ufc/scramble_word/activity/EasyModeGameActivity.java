@@ -1,9 +1,10 @@
 package com.ufc.scramble_word.activity;
 
+import com.ufc.scramble_word.util.Cronometro;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,39 +19,55 @@ public class EasyModeGameActivity extends Activity {
 
 	Chronometer chronometer;
 	TextView texto;
-	Processo processo;
-
-	/* SQLite */
-	// private TextView tv_scramble_word;
-	// private DatabaseController controller;
+	Cronometro cronometro;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// tv_scramble_word = (TextView) findViewById(R.id.tv_scramble_word);
-		// controller = new DatabaseController(getApplicationContext());
-		//
-		// try {
-		// JSONObject palavra = controller.randomPalavra();
-		// String palavra_palavra = palavra.getString("palavra");
-		// tv_scramble_word.setText(palavra_palavra);
-		// } catch (JSONException e) {
-		// e.printStackTrace();
-		// }
-
 		setContentView(R.layout.activity_easy_mode_game);
 		setMainLayout();
 		chronometer = (Chronometer) findViewById(R.id.chronometer);
 		chronometer.start();
 		texto = (TextView) findViewById(R.id.cronometro);
-		processo = new Processo(texto);
+		cronometro = new Cronometro(texto);
+		cronometro.execute();
 
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		cronometro.start();
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
-		processo.execute(50);
+		cronometro.start();
+	}
+
+	@Override
+	protected void onPause() {
+		cronometro.pause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		cronometro.pause();
+		super.onStop();
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		cronometro.cancel(true);
+		super.onDestroy();
 	}
 
 	protected void setMainLayout() {
@@ -88,7 +105,7 @@ public class EasyModeGameActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keycode, KeyEvent event) {
 		if (keycode == KeyEvent.KEYCODE_MENU) {
-			processo.pause();
+			cronometro.pause();
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.pause);
 			builder.setCancelable(false);
@@ -100,7 +117,7 @@ public class EasyModeGameActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							if (which == 0)
-								processo.start();
+								cronometro.start();
 							if (which == 1) {
 								AlertDialog.Builder confAudio = new AlertDialog.Builder(
 										EasyModeGameActivity.this);
@@ -147,7 +164,7 @@ public class EasyModeGameActivity extends Activity {
 	}
 
 	protected void setCongratulationView(boolean value) {
-		processo.pause();
+		cronometro.pause();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.congratulations);
@@ -168,7 +185,7 @@ public class EasyModeGameActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						// simulando resume
-						processo.start();
+						cronometro.start();
 					}
 				});
 		builder.setNegativeButton(R.string.next,
@@ -176,8 +193,8 @@ public class EasyModeGameActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						processo.reset();
-						processo.start();
+						cronometro.reset();
+						cronometro.start();
 						EditText et = (EditText) findViewById(R.id.et_unscrambled_word);
 						et.setText(null);
 						// MŽtodo para adicionar nova palavra na tela.
@@ -188,80 +205,6 @@ public class EasyModeGameActivity extends Activity {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 
-	}
-
-	public class Processo extends AsyncTask<Integer, String, Integer> {
-
-		private long tempo;
-		private long tempoInicio;
-		private long tempoDecorrido;
-		private boolean cronometrando;
-		private TextView texto;
-
-		public Processo(TextView texto) {
-			tempo = 0;
-			tempoInicio = System.currentTimeMillis();
-			tempoDecorrido = 0;
-			cronometrando = true;
-			this.texto = texto;
-		}
-
-		@Override
-		protected void onPreExecute() {
-		}
-
-		@Override
-		protected Integer doInBackground(Integer... paramss) {
-			try {
-				while (true) {
-					if (cronometrando) {
-						tempo = System.currentTimeMillis() - tempoInicio
-								+ tempoDecorrido;
-
-						Thread.sleep(1);
-						publishProgress("");
-					}
-				}
-			} catch (InterruptedException ex) {
-				// ex.printStackTrace();
-			}
-			return 1;
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-		}
-
-		@Override
-		protected void onProgressUpdate(String... values) {
-			long time = tempo;
-			long minuto = 0;
-			long segundo = 0;
-			long mile = 0;
-			mile = time % 1000;
-			time = time - mile;
-			segundo = (time / 1000);
-			minuto = (segundo - (segundo % 60)) / 60;
-			segundo = segundo % 60;
-
-			texto.setText(minuto + ":" + segundo + ":" + mile);
-		}
-
-		public void reset() {
-			cronometrando = false;
-			tempoInicio = 0;
-			tempoDecorrido = 0;
-		}
-
-		public void pause() {
-			cronometrando = false;
-			tempoDecorrido = tempo;
-		}
-
-		public void start() {
-			cronometrando = true;
-			tempoInicio = System.currentTimeMillis();
-		}
 	}
 
 }
