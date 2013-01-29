@@ -1,6 +1,5 @@
 package com.ufc.scramble_word.activity;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,17 +12,15 @@ import android.widget.TextView;
 
 import com.ufc.scramble_word.util.ConnectionSocket;
 
-
-
 public class ClienteActivity extends Activity {
+	
 	private TextView lbStatus;
 	private TextView lbPalavra;
 	private String palavra;
 	private EditText edMensagem;
 	private Button btnDesconectar;
 	private Button bt_ok;
-	ConnectionSocket connection;	
-
+	private ConnectionSocket connection;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			synchronized (msg) {
@@ -34,7 +31,7 @@ public class ClienteActivity extends Activity {
 				}
 				case ConnectionSocket.SENDING_MESSAGE: {
 					lbStatus.setText("Enviou Mensagem");
-					edMensagem.setText("");		
+					edMensagem.setText("");
 					break;
 				}
 				case ConnectionSocket.MESSAGE_RECIVED: {
@@ -74,9 +71,8 @@ public class ClienteActivity extends Activity {
 				try {
 					EditText ip = (EditText) findViewById(R.id.et_ip);
 					EditText porta = (EditText) findViewById(R.id.et_porta);
-					connection = ConnectionSocket
-							.createConnection(ip.getText().toString(), porta
-									.getText().toString(),handler);
+					connection = ConnectionSocket.createConnection(ip.getText()
+							.toString(), porta.getText().toString(), handler);
 					connection.connect();
 					mensagem();
 
@@ -86,6 +82,37 @@ public class ClienteActivity extends Activity {
 
 			}
 		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 
 	private void mensagem() {

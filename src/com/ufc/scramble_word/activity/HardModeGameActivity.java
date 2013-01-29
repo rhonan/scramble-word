@@ -16,9 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HardModeGameActivity extends Activity {
-	Chronometer chronometer;
-	TextView texto;
-	Cronometro cronometro;
+
+	private Chronometer chronometer;
+	private TextView texto;
+	private Cronometro cronometro;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

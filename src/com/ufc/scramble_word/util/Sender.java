@@ -8,74 +8,53 @@ import android.os.Message;
 
 class Sender implements Runnable {
 
-    private DataOutputStream out;
-    private boolean running = true;
-    private Handler handler;
-    private Message msg;
-    private String sendMessage;
+	private DataOutputStream out;
+	private Handler handler;
+	private Message msg;
+	private String sendMessage;
 
-    public Sender(DataOutputStream out, Handler handler) {
-        this.out = out;
-        this.handler = handler;
-    }
+	public Sender(DataOutputStream out, Handler handler) {
+		this.out = out;
+		this.handler = handler;
+	}
 
-    @Override
-    public void run() {
-        while (running) {// Enquanto estiver executando
+	@Override
+	public void run() {
+		while (!Thread.currentThread().isInterrupted()) {
 
-            try {
-                if (sendMessage != null) { // Se existir uma mensagem para
-                                            // enviar
-                    msg = new Message();
-                    msg.arg1 = ConnectionSocket.SENDING_MESSAGE;
-                    handler.sendMessage(msg); // Notifica Handler
-                    out.writeUTF(sendMessage); // Escreve mensagem
-                    out.flush();
-                    sendMessage = null; // Seta nulo na mensagem
-                }
+			try {
+				if (sendMessage != null) {
+					msg = new Message();
+					msg.arg1 = ConnectionSocket.SENDING_MESSAGE;
+					handler.sendMessage(msg);
+					out.writeUTF(sendMessage);
+					out.flush();
+					sendMessage = null;
+				}
 
-            } catch (IOException e) {
-                msg = new Message();
-                msg.arg1 = ConnectionSocket.ERROR;
-                msg.obj = e.getMessage();
-                handler.sendMessage(msg);
-                running = false;
-            }
+			} catch (IOException e) {
+				msg = new Message();
+				msg.arg1 = ConnectionSocket.ERROR;
+				msg.obj = e.getMessage();
+				handler.sendMessage(msg);
+			}
 
-        }
-        try {
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		}
+		try {
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public void setMessage(String message) {
+		this.sendMessage = message;
 
+	}
 
-    public boolean isRunning() {
-        return running;
-    }
-
-    public void setRunning(boolean running) {
-        this.running = running;
-    }
-
-    public void stop() {
-        running = false;
-    }
-
-    public void setMessage(String message) {
-        this.sendMessage = message;
-
-    }
-
-    public void disconnect() throws Exception {
-        msg = new Message();
-        msg.arg1 = ConnectionSocket.DISCONNECTED;
-        handler.sendMessage(msg); // Notifica Handler
-        running = false;
-        out.close();
-    }
+	public void disconnect() throws Exception {
+		Thread.currentThread().interrupt();
+		out.close();
+	}
 
 }
- 

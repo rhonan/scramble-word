@@ -1,4 +1,5 @@
 package com.ufc.scramble_word.util;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,64 +9,69 @@ import java.net.Socket;
 import android.os.Handler;
 import android.os.Message;
 
-public class ServidorAndroid implements Runnable{
+public class ServidorAndroid {
 	public static final int WAITING = 1;
 	public static final int CONECTED = 2;
-	public static final int DESCONECTED = 3;	
-	private static final int PORTA = 1234;
+	public static final int DESCONECTED = 3;
+	private static final int PORTA = 6000;
 	private SenderReceiverServer receiverSender;
-	private ServerSocket server;
-	private Socket socket;
 	private Handler handler;
 	private Message msg;
+
 	public ServidorAndroid(Handler handler) {
 		this.handler = handler;
+		receiverSender = new SenderReceiverServer(handler);
 	}
-	@Override
-	public void run() {
-		try {
-			server = new ServerSocket(PORTA);
-			socket = server.accept();
-			msg.arg1 = CONECTED;
-			handler.sendMessage(msg);
-			receiverSender = new SenderReceiverServer(socket);
-			new Thread(receiverSender).start();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void start() {
+		new Thread(receiverSender).start();
+		msg = new Message();
+		msg.arg1 = WAITING;
+		handler.sendMessage(msg);
 	}
-	
-	public void disconnect() throws Exception
-	{
+
+	public void disconnect() throws Exception {
 		receiverSender.disconnect();
-		socket.close();
-		server.close();
-		
+		msg = new Message();
+		msg.arg1 = DESCONECTED;
+		handler.sendMessage(msg);
+
 	}
 
 	class SenderReceiverServer implements Runnable {
+		private ServerSocket server;
+		private Socket socket;
+		private Handler handler;
+		private Message msg;
 		private DataInputStream in;
 		private DataOutputStream out;
-		private boolean running = true;
 
-		public SenderReceiverServer(Socket socket) throws IOException {
-			in = new DataInputStream(socket.getInputStream());
-			out = new DataOutputStream(socket.getOutputStream());
+		public SenderReceiverServer(Handler handler) {
+			this.handler = handler;
 		}
 
 		@Override
 		public void run() {
 			String mensagem;
+
 			try {
-				while (running) {
+				server = new ServerSocket(ServidorAndroid.PORTA);
+				socket = server.accept();
+				in = new DataInputStream(socket.getInputStream());
+				out = new DataOutputStream(socket.getOutputStream());
+				msg = new Message();
+				msg.arg1 = ServidorAndroid.CONECTED;
+				handler.sendMessage(msg);
+				while (!Thread.currentThread().isInterrupted()) {
 					mensagem = in.readUTF();
 					enviarMensagem(mensagem);
 				}
 				in.close();
 
 			} catch (IOException e) {
-				running = false;
+				msg = new Message();
+				msg.arg1 = ServidorAndroid.DESCONECTED;
+				handler.sendMessage(msg);
 			}
 
 		}
@@ -75,22 +81,12 @@ public class ServidorAndroid implements Runnable{
 			out.flush();
 		}
 
-		public boolean isRunning() {
-			return running;
-		}
-
-		public void setRunning(boolean running) {
-			this.running = running;
-		}
-
-		public void stop() {
-			running = false;
-		}
-
 		public void disconnect() throws Exception {
-			running = false;
+			Thread.currentThread().interrupt();
 			in.close();
 			out.close();
+			socket.close();
+			server.close();
 		}
 	}
 }

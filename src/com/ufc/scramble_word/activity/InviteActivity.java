@@ -22,9 +22,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class InviteActivity extends Activity {
-	Button bt_invite;
-	Button bt_try;
-	AutoCompleteTextView contato;
+	private Button bt_invite;
+	private Button bt_try;
+	private IntentFilter intentFilter;
+	private AutoCompleteTextView contato;
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -43,8 +44,8 @@ public class InviteActivity extends Activity {
 			}
 		}
 	};
-	IntentFilter intentFilter;
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invite_a_friend);
@@ -55,16 +56,37 @@ public class InviteActivity extends Activity {
 
 	}
 
-	public void onResume() {
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
 		super.onResume();
 		registerReceiver(receiver, intentFilter);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		this.unregisterReceiver(receiver);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
 
 	}
 
-	public void onPause() {
-		super.onPause();
-		this.unregisterReceiver(receiver);
-
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -146,7 +168,6 @@ public class InviteActivity extends Activity {
 
 	private String getEmail(String contato) {
 		String email = contato;
-
 		return email;
 	}
 

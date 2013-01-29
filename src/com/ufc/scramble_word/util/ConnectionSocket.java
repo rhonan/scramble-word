@@ -9,17 +9,17 @@ import android.os.Message;
 
 public class ConnectionSocket {
 
+    public static final int CONNECTED = 1;
+    public static final int ERROR = 2;
+    public static final int SENDING_MESSAGE = 3;
+    public static final int MESSAGE_RECIVED = 4;    
+    public static final int DISCONNECTED = 5;	
     private static ConnectionSocket connection;
     private int porta;
     private String host;
     private Socket socket;
     private Sender sender;
     private Receiver receiver;
-    public static final int CONNECTED = 1;
-    public static final int ERROR = 2;
-    public static final int SENDING_MESSAGE = 3;
-    public static final int MESSAGE_RECIVED = 4;    
-    public static final int DISCONNECTED = 5;
     private Message msg;
     private DataOutputStream out;
     private DataInputStream in;    
