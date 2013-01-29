@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:text="Desconectar" />
+        android:text="@string/disconnect" />
 
     <EditText
         android:id="@+id/et_palavra"
@@ -32,7 +32,7 @@
         android:layout_above="@+id/bt_desconectar"
         android:layout_alignLeft="@+id/bt_desconectar"
         android:layout_alignRight="@+id/bt_desconectar"
-        android:text="Enviar" />
+        android:text="@string/send" />
 
     <TextView
         android:id="@+id/tv_palavra"
@@ -41,17 +41,16 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="Palavra"
+        android:text="@string/palavra"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bt_enviar"
-        android:layout_alignLeft="@+id/tv_palavra"
-        android:layout_alignRight="@+id/bt_enviar"
-        android:layout_marginBottom="38dp"
-        android:text="status" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/status" />
 
 </RelativeLayout>

@@ -36,5 +36,8 @@
     <string name="title_activity_cliente">ClienteActivity</string>
     <string name="title_activity_server">ServerActivity</string>
     <string name="title_activity_mensagem">MensagemActivity</string>
+    <string name="disconnect">Disconect</string>
+    <string name="status">Status</string>
+    <string name="palavra">word</string>
 
 </resources>
