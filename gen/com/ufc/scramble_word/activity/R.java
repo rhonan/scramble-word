@@ -68,6 +68,7 @@ public final class R {
         public static final int congratulations=0x7f04000f;
         public static final int credits=0x7f04000b;
         public static final int credits_text=0x7f04000c;
+        public static final int disconnect=0x7f040023;
         public static final int easy=0x7f040006;
         public static final int facebook_share=0x7f040011;
         public static final int hard=0x7f040008;
@@ -81,11 +82,13 @@ public final class R {
         public static final int next=0x7f040010;
         public static final int normal=0x7f040007;
         public static final int ok=0x7f040017;
+        public static final int palavra=0x7f040025;
         public static final int pause=0x7f040015;
         public static final int play=0x7f040009;
         public static final int resume=0x7f040013;
         public static final int send=0x7f040019;
         public static final int shared=0x7f040012;
+        public static final int status=0x7f040024;
         public static final int title_activity_cliente=0x7f040020;
         public static final int title_activity_easy_mode_game=0x7f040002;
         public static final int title_activity_hard_mode_game=0x7f040005;
