@@ -12,7 +12,7 @@ public class ConnectionSocket {
     public static final int CONNECTED = 1;
     public static final int ERROR = 2;
     public static final int SENDING_MESSAGE = 3;
-    public static final int MESSAGE_RECIVED = 4;    
+    public static final int MESSAGE_RECEIVED = 4;    
     public static final int DISCONNECTED = 5;	
     private static ConnectionSocket connection;
     private int porta;

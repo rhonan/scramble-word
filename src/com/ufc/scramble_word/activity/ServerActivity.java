@@ -12,20 +12,22 @@ import com.ufc.scramble_word.util.ServidorAndroid;
 @SuppressLint("HandlerLeak")
 public class ServerActivity extends Activity {
 
+	private String word;
+	private TextView tvWord;
 	private TextView lbStatus;
 	private ServidorAndroid server = null;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			synchronized (msg) {
 				switch (msg.arg1) {
-				case ServidorAndroid.CONECTED:
-					lbStatus.setText("Conectado");
+				case ServidorAndroid.CONNECTED:
+					lbStatus.setText("Connected.");
 					break;
-				case ServidorAndroid.DESCONECTED:
-					lbStatus.setText("Desconectado");
+				case ServidorAndroid.DISCONNECTED:
+					lbStatus.setText("Disconnected.");
 					break;
 				case ServidorAndroid.WAITING:
-					lbStatus.setText("Aguardando....");
+					lbStatus.setText("Waiting....");
 					break;
 
 				}
@@ -33,12 +35,15 @@ public class ServerActivity extends Activity {
 		};
 
 	};
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_server);
 		lbStatus = (TextView) findViewById(R.id.tv_status);
+		tvWord = (TextView) findViewById(R.id.tv_word);
 		this.server = new ServidorAndroid(handler);
 		server.start();
 

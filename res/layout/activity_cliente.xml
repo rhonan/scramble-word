@@ -11,44 +11,23 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="73dp"
-        android:text="IP" />
+        android:text="@string/ip" />
 
     <Button
         android:id="@+id/bt_enviar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_porta"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="84dp"
-        android:text="Enviar" />
-
-    <TextView
-        android:id="@+id/tv_porta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_ip"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="78dp"
-        android:text="PORTA" />
-
-    <EditText
-        android:id="@+id/et_porta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:inputType="textPersonName" >
-
-        <requestFocus />
-    </EditText>
+        android:text="@string/connect" />
 
     <EditText
         android:id="@+id/et_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/et_porta"
         android:layout_below="@+id/tv_ip"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textPersonName" />
 

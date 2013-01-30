@@ -14,6 +14,7 @@ import com.ufc.scramble_word.util.ConnectionSocket;
 
 public class ClienteActivity extends Activity {
 	
+	private static final String porta = "6000"; 
 	private TextView lbStatus;
 	private TextView lbPalavra;
 	private String palavra;
@@ -26,27 +27,27 @@ public class ClienteActivity extends Activity {
 			synchronized (msg) {
 				switch (msg.arg1) {
 				case ConnectionSocket.CONNECTED: {
-					lbStatus.setText("Conectado");
+					lbStatus.setText("Connected");
 					break;
 				}
 				case ConnectionSocket.SENDING_MESSAGE: {
-					lbStatus.setText("Enviou Mensagem");
+					lbStatus.setText("Message sent");
 					edMensagem.setText("");
 					break;
 				}
-				case ConnectionSocket.MESSAGE_RECIVED: {
-					lbStatus.setText("recebeu Mensagem");
+				case ConnectionSocket.MESSAGE_RECEIVED: {
+					lbStatus.setText("Message received");
 					palavra = ConnectionSocket.getCurentConnection()
 							.getMessage();
 					lbPalavra.setText(palavra);
 					break;
 				}
 				case ConnectionSocket.ERROR: {
-					lbStatus.setText("Ocorreu um erro->" + msg.obj);
+					lbStatus.setText("Error->" + msg.obj);
 					break;
 				}
 				case ConnectionSocket.DISCONNECTED: {
-					lbStatus.setText("Servidor->Desconectou");
+					lbStatus.setText("Server has been disconnected.");
 					break;
 				}
 
@@ -70,9 +71,8 @@ public class ClienteActivity extends Activity {
 				// Emular resposta errada com campo vazio
 				try {
 					EditText ip = (EditText) findViewById(R.id.et_ip);
-					EditText porta = (EditText) findViewById(R.id.et_porta);
 					connection = ConnectionSocket.createConnection(ip.getText()
-							.toString(), porta.getText().toString(), handler);
+							.toString(), porta, handler);
 					connection.connect();
 					mensagem();
 

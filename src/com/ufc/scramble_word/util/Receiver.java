@@ -23,7 +23,7 @@ class Receiver implements Runnable {
 			while (!Thread.currentThread().isInterrupted()) {
 				message = in.readUTF();
 				msg = new Message();
-				msg.arg1 = ConnectionSocket.MESSAGE_RECIVED;
+				msg.arg1 = ConnectionSocket.MESSAGE_RECEIVED;
 				handler.sendMessage(msg);
 			}
 			in.close();

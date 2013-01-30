@@ -11,8 +11,8 @@ import android.os.Message;
 
 public class ServidorAndroid {
 	public static final int WAITING = 1;
-	public static final int CONECTED = 2;
-	public static final int DESCONECTED = 3;
+	public static final int CONNECTED = 2;
+	public static final int DISCONNECTED = 3;
 	private static final int PORTA = 6000;
 	private SenderReceiverServer receiverSender;
 	private Handler handler;
@@ -33,7 +33,7 @@ public class ServidorAndroid {
 	public void disconnect() throws Exception {
 		receiverSender.disconnect();
 		msg = new Message();
-		msg.arg1 = DESCONECTED;
+		msg.arg1 = DISCONNECTED;
 		handler.sendMessage(msg);
 
 	}
@@ -60,7 +60,7 @@ public class ServidorAndroid {
 				in = new DataInputStream(socket.getInputStream());
 				out = new DataOutputStream(socket.getOutputStream());
 				msg = new Message();
-				msg.arg1 = ServidorAndroid.CONECTED;
+				msg.arg1 = ServidorAndroid.CONNECTED;
 				handler.sendMessage(msg);
 				while (!Thread.currentThread().isInterrupted()) {
 					mensagem = in.readUTF();
@@ -70,7 +70,7 @@ public class ServidorAndroid {
 
 			} catch (IOException e) {
 				msg = new Message();
-				msg.arg1 = ServidorAndroid.DESCONECTED;
+				msg.arg1 = ServidorAndroid.DISCONNECTED;
 				handler.sendMessage(msg);
 			}
 
