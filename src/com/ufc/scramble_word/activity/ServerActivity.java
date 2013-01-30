@@ -8,12 +8,14 @@ import android.view.Menu;
 import android.widget.TextView;
 
 import com.ufc.scramble_word.util.ServidorAndroid;
+import com.ufc.scramble_word.util.Utils;
 
 @SuppressLint("HandlerLeak")
 public class ServerActivity extends Activity {
 
 	private String word;
 	private TextView tvWord;
+	private TextView tvIp;
 	private TextView lbStatus;
 	private ServidorAndroid server = null;
 	private Handler handler = new Handler() {
@@ -43,6 +45,8 @@ public class ServerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_server);
 		lbStatus = (TextView) findViewById(R.id.tv_status);
+		tvIp = (TextView) findViewById(R.id.tv_ip);
+		tvIp.setText(Utils.getIPAddress(true));
 		tvWord = (TextView) findViewById(R.id.tv_word);
 		this.server = new ServidorAndroid(handler);
 		server.start();
