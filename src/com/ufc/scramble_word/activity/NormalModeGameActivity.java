@@ -9,14 +9,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class NormalModeGameActivity extends Activity {
 
-	private Chronometer chronometer;
 	private TextView texto;
 	private Cronometro cronometro;
 
@@ -25,8 +23,6 @@ public class NormalModeGameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_normal_mode_game);
 		setMainLayout();
-		chronometer = (Chronometer) findViewById(R.id.chronometer);
-		chronometer.start();
 		texto = (TextView) findViewById(R.id.cronometro);
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
@@ -88,7 +84,6 @@ public class NormalModeGameActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "Wrong!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					chronometer.stop();
 					setCongratulationView(true);
 				}
 
@@ -189,6 +184,7 @@ public class NormalModeGameActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						cronometro.reset();
+						cronometro.start();
 						EditText et = (EditText) findViewById(R.id.et_unscrambled_word);
 						et.setText(null);
 						// MŽtodo para adicionar nova palavra na tela.

@@ -27,13 +27,12 @@ public final class R {
         public static final int bt_try=0x7f070006;
         public static final int bt_unscramble=0x7f070016;
         public static final int bt_versus=0x7f07000a;
-        public static final int chronometer=0x7f070017;
-        public static final int cronometro=0x7f070018;
+        public static final int cronometro=0x7f070017;
         public static final int et_ip=0x7f070002;
         public static final int et_palavra=0x7f07000d;
         public static final int et_unscrambled_word=0x7f070015;
         public static final int ib_main_menu=0x7f070013;
-        public static final int menu_settings=0x7f070019;
+        public static final int menu_settings=0x7f070018;
         public static final int tv_credits=0x7f070012;
         public static final int tv_invite=0x7f070007;
         public static final int tv_ip=0x7f070000;

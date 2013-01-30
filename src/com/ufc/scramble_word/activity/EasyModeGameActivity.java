@@ -10,14 +10,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class EasyModeGameActivity extends Activity {
 
-	private Chronometer chronometer;
 	private TextView texto;
 	private Cronometro cronometro;
 
@@ -26,8 +24,6 @@ public class EasyModeGameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_easy_mode_game);
 		setMainLayout();
-		chronometer = (Chronometer) findViewById(R.id.chronometer);
-		chronometer.start();
 		texto = (TextView) findViewById(R.id.cronometro);
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
@@ -93,7 +89,6 @@ public class EasyModeGameActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "Wrong!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					chronometer.stop();
 					setCongratulationView(true);
 				}
 

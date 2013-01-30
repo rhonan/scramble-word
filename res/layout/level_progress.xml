@@ -47,22 +47,12 @@
         android:layout_marginTop="59dp"
         android:text="@string/unscramble" />
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_back_level_mode"
-        android:layout_centerHorizontal="true"
-        android:text="Chronometer" />
-
     <TextView
         android:id="@+id/cronometro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/chronometer"
-        android:layout_alignBottom="@+id/chronometer"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/tv_scramble_word"
+        android:layout_below="@+id/bt_back_level_mode"
+        android:layout_centerHorizontal="true"
         android:text="00" />
 
 </RelativeLayout>
