@@ -1,10 +1,14 @@
 package com.ufc.scramble_word.activity;
 
 import com.ufc.scramble_word.util.Cronometro;
+import com.ufc.scramble_word.util.ShakeEventListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,7 +22,9 @@ public class EasyModeGameActivity extends Activity {
 
 	private TextView texto;
 	private Cronometro cronometro;
-
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,7 +33,13 @@ public class EasyModeGameActivity extends Activity {
 		texto = (TextView) findViewById(R.id.cronometro);
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
-
+	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+	    mSensorListener = new ShakeEventListener();   
+	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+	      public void onShake() {
+	        Toast.makeText(EasyModeGameActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
+	      }
+	    });
 	}
 
 	@Override
@@ -45,11 +57,15 @@ public class EasyModeGameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		cronometro.start();
+		mSensorManager.registerListener(mSensorListener,
+		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+		        SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override
 	protected void onPause() {
 		cronometro.pause();
+		 mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 	}
 
