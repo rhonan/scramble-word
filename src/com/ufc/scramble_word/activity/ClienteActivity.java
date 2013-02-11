@@ -1,6 +1,11 @@
 package com.ufc.scramble_word.activity;
 
+import java.util.Random;
+
 import android.app.Activity;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -9,8 +14,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ufc.scramble_word.util.ConnectionSocket;
+import com.ufc.scramble_word.util.ShakeEventListener;
 
 public class ClienteActivity extends Activity {
 	
@@ -21,6 +28,11 @@ public class ClienteActivity extends Activity {
 	private EditText edMensagem;
 	private Button btnDesconectar;
 	private Button bt_ok;
+	
+	/* Declarando sensor */
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
+	
 	private ConnectionSocket connection;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -63,6 +75,10 @@ public class ClienteActivity extends Activity {
 		setContentView(R.layout.activity_cliente);
 
 		Button bt_enviar = (Button) findViewById(R.id.bt_enviar);
+		
+		/* Instanciando sensor */
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+	    mSensorListener = new ShakeEventListener();
 
 		bt_enviar.setOnClickListener(new OnClickListener() {
 
@@ -97,10 +113,14 @@ public class ClienteActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mSensorManager.registerListener(mSensorListener,
+		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+		        SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override
 	protected void onPause() {
+		mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 	}
 
@@ -122,7 +142,14 @@ public class ClienteActivity extends Activity {
 		edMensagem = (EditText) findViewById(R.id.et_palavra);
 		ConnectionSocket.getCurentConnection().startSender();
 		ConnectionSocket.getCurentConnection().startReceiver();
-
+		
+		/* Definindo ação para quando o dispositivo for balançado */
+	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+	      public void onShake() {
+	        Toast.makeText(ClienteActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
+	      }
+	    });
+		
 		bt_ok = (Button) findViewById(R.id.bt_ok);
 		bt_ok.setOnClickListener(new OnClickListener() {
 
@@ -158,4 +185,21 @@ public class ClienteActivity extends Activity {
 		return true;
 	}
 
+	/* Método para embaralhar a palavra */
+	public String scramble(String word) {
+	    StringBuilder builder = new StringBuilder(word.length());
+	    boolean[] used = new boolean[word.length()];
+	    
+	    for (int i = 0; i < word.length(); i++) {
+	        int rndIndex;
+	        do {
+	            rndIndex = new Random().nextInt(word.length());
+	        } while (used[rndIndex]);
+	        used[rndIndex] = true;
+	        	
+	        builder.append(word.charAt(rndIndex));
+	    }
+	    return builder.toString();
+	}
+	
 }

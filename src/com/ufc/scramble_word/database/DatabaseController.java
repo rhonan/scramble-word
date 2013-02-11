@@ -1,61 +1,151 @@
 package com.ufc.scramble_word.database;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.ufc.scramble_word.bean.Word;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DatabaseController {
+
+	private Context context;
+	private Cursor cursor;
 	private SQLiteDatabase db;
-	private DatabaseHelper helper;
-	
-	public DatabaseController(Context context){
-		helper = new DatabaseHelper(context);
-		db = helper.getDatabase();
+	private DatabaseHelper dbHelper;
+
+	public DatabaseController(Context context) {
+		this.context = context;
 	}
-	
-	public List<JSONObject> allPalavras() {
-	    List<JSONObject> result = new ArrayList<JSONObject>();
-	    
-	    Cursor cursor = db.query("palavras", new String[]{"id","palavra","dica","nivel"}, null, null, null, null, "id ASC");
-	    cursor.moveToFirst();
-	    while (!cursor.isAfterLast()){
-	    	JSONObject obj = new JSONObject();
-	    	try{
-	    		obj.put("id", cursor.getInt(0));
-	            obj.put("palavra",cursor.getString(1));
-	            obj.put("dica",cursor.getString(2));
-	            obj.put("nivel", cursor.getString(3));
-	    	}catch (JSONException e){
-	    		
-	    	}
-	    	result.add(obj);
-	    	
-	    	cursor.moveToNext();
-	    }
-	    cursor.close();
-	    return result;
+
+	public void inserir(Word word) {
+
+		dbHelper = new DatabaseHelper(context);
+		db = dbHelper.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+
+
+		values.put(DatabaseHelper.WORD_CONTEUDO ,word.getConteudo());
+		values.put(DatabaseHelper.WORD_TAMANHO ,word.getTamanho());
+		values.put(DatabaseHelper.WORD_DICA, word.getDica());
+
+		db.insert(DatabaseHelper.NOME_TABELA, null, values);
+
+		db.close();
+
+		Log.d("ControladorDB","Inserindo Palavra");
+
 	}
-	
-	public JSONObject randomPalavra(){
-		
-		Cursor cursor = db.query("palavras", new String[]{"id","palavra","dica","nivel"}, "id = 1", null, null, null, "id ASC");
-		
-		JSONObject obj = new JSONObject();
-		try{
-    		obj.put("id", cursor.getInt(0));
-            obj.put("palavra",cursor.getString(1));
-            obj.put("dica",cursor.getString(2));
-            obj.put("nivel", cursor.getString(3));
-		}catch(JSONException e){
+
+	public Word selecionar(long id) {
+
+		dbHelper = new DatabaseHelper(context);
+		db = dbHelper.getWritableDatabase();
+
+		Word word = new Word();
+		cursor = db.query(DatabaseHelper.NOME_TABELA, new String[]{ 
+			DatabaseHelper.WORD_ID,
+			DatabaseHelper.WORD_CONTEUDO,
+			DatabaseHelper.WORD_DICA,
+			DatabaseHelper.WORD_TAMANHO }, DatabaseHelper.WORD_ID + "=" + id, null, null, null, null);
+
+
+		if ( cursor == null ) {
+			Log.d("ControladorDB","Id n‹o encontrado");
+
+			cursor.close();
+			db.close();
+
+			return null;
+		} else {
+			cursor.moveToFirst();
+
+			word.setId( 		cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORD_ID)) );
+			word.setConteudo( 	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_CONTEUDO)) );
+			word.setDica( 	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_DICA)) );
+			word.setTamanho( cursor.getInt(cursor.getColumnIndex(DatabaseHelper.WORD_TAMANHO)) );
 			
+			cursor.close();
+			db.close();
+			return word;
+
 		}
-		cursor.close();
-		return obj;
+
 	}
+
+	public ArrayList<Word> selecionarTodos(){
+
+		dbHelper = new DatabaseHelper(context);
+		db = dbHelper.getWritableDatabase();
+
+		cursor = db.query(DatabaseHelper.NOME_TABELA, new String[]{ 
+				DatabaseHelper.WORD_ID,
+				DatabaseHelper.WORD_CONTEUDO,
+				DatabaseHelper.WORD_DICA,
+				DatabaseHelper.WORD_TAMANHO }, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		ArrayList<Word> lista = new ArrayList<Word>();
+
+		while ( !cursor.isAfterLast() ){
+
+			Word word = new Word();
+
+			word.setId( cursor.getLong(cursor.getColumnIndex(DatabaseHelper.WORD_ID)));
+			word.setConteudo( cursor.getString( cursor.getColumnIndex(DatabaseHelper.WORD_CONTEUDO)) ) ;
+			word.setDica( cursor.getString( cursor.getColumnIndex(DatabaseHelper.WORD_DICA)) ) ;
+			word.setTamanho( cursor.getInt( cursor.getColumnIndex(DatabaseHelper.WORD_TAMANHO) ) );
+
+			lista.add(word);
+
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		db.close();
+
+		return lista;
+
+	}
+
+	public ArrayList<Word> selecionarPalavrasDeTamanhoAte(int tamanho) {
+
+		dbHelper = new DatabaseHelper(context);
+		db = dbHelper.getWritableDatabase();
+
+		cursor = db.query(DatabaseHelper.NOME_TABELA, new String[]{ 
+				DatabaseHelper.WORD_ID,
+				DatabaseHelper.WORD_CONTEUDO,
+				DatabaseHelper.WORD_DICA,
+				DatabaseHelper.WORD_TAMANHO }, DatabaseHelper.WORD_TAMANHO + "<= "+tamanho, null, null, null, null);
+							//db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
+
+		cursor.moveToFirst();
+		ArrayList<Word> lista = new ArrayList<Word>();
+
+		while ( !cursor.isAfterLast() ){
+
+			Word word = new Word();
+
+			word.setId(		cursor.getLong	(cursor.getColumnIndex(DatabaseHelper.WORD_ID)));
+			word.setConteudo(	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_CONTEUDO)));
+			word.setDica(	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_DICA)));
+			word.setTamanho(	cursor.getInt(cursor.getColumnIndex(DatabaseHelper.WORD_TAMANHO)));
+
+			lista.add(word);
+
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		db.close();
+
+		return lista;
+
+	}
+
 }

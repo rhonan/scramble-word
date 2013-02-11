@@ -1,5 +1,9 @@
 package com.ufc.scramble_word.activity;
 
+import java.util.Random;
+
+import com.ufc.scramble_word.bean.Word;
+import com.ufc.scramble_word.database.DatabaseController;
 import com.ufc.scramble_word.util.Cronometro;
 import com.ufc.scramble_word.util.ShakeEventListener;
 
@@ -21,9 +25,12 @@ import android.widget.Toast;
 public class EasyModeGameActivity extends Activity {
 
 	private TextView texto;
+	private TextView scramble_word;
 	private Cronometro cronometro;
 	private SensorManager mSensorManager;
 	private ShakeEventListener mSensorListener;
+	private DatabaseController dbController;
+	private Word word;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +38,21 @@ public class EasyModeGameActivity extends Activity {
 		setContentView(R.layout.activity_easy_mode_game);
 		setMainLayout();
 		texto = (TextView) findViewById(R.id.cronometro);
+		
+		dbController = new DatabaseController(getApplicationContext());
+		word = dbController.selecionar(1);
+		
+		scramble_word = (TextView) findViewById(R.id.tv_scramble_word);
+		scramble_word.setText(scramble(word.getConteudo()));
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
+		
+		/* Sensor para quando balançar o dispositivo executar alguma ação */
 	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    mSensorListener = new ShakeEventListener();   
 	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 	      public void onShake() {
+	    	scramble_word.setText(scramble(word.getConteudo()));
 	        Toast.makeText(EasyModeGameActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
 	      }
 	    });
@@ -65,7 +81,7 @@ public class EasyModeGameActivity extends Activity {
 	@Override
 	protected void onPause() {
 		cronometro.pause();
-		 mSensorManager.unregisterListener(mSensorListener);
+		mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 	}
 
@@ -217,5 +233,21 @@ public class EasyModeGameActivity extends Activity {
 		dialog.show();
 
 	}
-
+	
+	/* Método para embaralhar a palavra */
+	public String scramble(String word) {
+	    StringBuilder builder = new StringBuilder(word.length());
+	    boolean[] used = new boolean[word.length()];
+	    
+	    for (int i = 0; i < word.length(); i++) {
+	        int rndIndex;
+	        do {
+	            rndIndex = new Random().nextInt(word.length());
+	        } while (used[rndIndex]);
+	        used[rndIndex] = true;
+	        	
+	        builder.append(word.charAt(rndIndex));
+	    }
+	    return builder.toString();
+	}
 }

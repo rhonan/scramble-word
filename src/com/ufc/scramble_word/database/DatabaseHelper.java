@@ -4,54 +4,79 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	public DatabaseHelper(Context context){
-		super(context, "palavras.sqlite", null, 1);
+	private final static String NOME_DB = "word_db";
+	private final static int VERSAO_DB = 1;
+
+	public final static String NOME_TABELA = "word";
+
+	public final static String WORD_ID = "id";
+	public final static String WORD_CONTEUDO = "conteudo";
+	public final static String WORD_TAMANHO = "tamanho";
+	public final static String WORD_DICA = "dica";
+
+	// public final static String
+
+	public DatabaseHelper(Context contexto) {
+		super(contexto, NOME_DB, null, VERSAO_DB);
 	}
-	
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE palavras(" +
-                "id INT AUTO_INCREMENT," +
-                "palavra VARCHAR(100)," +
-                "dica VARCHAR(200)," +
-                "nivel VARCHAR(10)," +
-                "primary key(id));");
+		// TODO Auto-generated method stub
 
-		ContentValues values = new ContentValues();
+		String sql = "";
+		sql += "CREATE TABLE " + NOME_TABELA + " ( "
+				+ "	    id            INTEGER PRIMARY KEY AUTOINCREMENT "
+				+ "	                          NOT NULL"
+				+ "	                          UNIQUE,"
+				+ "	    conteudo       VARCHAR NOT NULL,"
+				+ "	    dica       VARCHAR NOT NULL,"
+				+ "	    tamanho        INTEGER NOT NULL);";
+
+		Log.d("DBHelper.onCreate", "Criação da Tabela");
 		
-	    values.put("palavra", "RUBY");
-	    values.put("dica", "Jewel");
-	    values.put("nivel", "easy");
-	    db.insert("palavras", null, values);
+		db.execSQL(sql);
+		
+		ContentValues values = new ContentValues();
 	    
-	    values.put("palavra", "JAVA");
-	    values.put("dica", "Programming language");
-	    values.put("nivel", "easy");
-	    db.insert("palavras", null, values);
+		/* Inserindo dados */
+	    values.put("conteudo", "cachorro");
+	    values.put("tamanho", 8);
+	    values.put("dica", "Animal");
+	    db.insert(NOME_TABELA, null, values);
 	    
-	    values.put("palavra", "FACEBOOK");
-	    values.put("dica", "Social network");
-	    values.put("nivel", "normal");
-	    db.insert("palavras", null, values);
+	    values.put("conteudo", "java");
+	    values.put("tamanho", 4);
+	    values.put("dica", "Linguagem de Programação");
+	    db.insert(NOME_TABELA, null, values);
 	    
-	    values.put("palavra", "SHOPPING");
-	    values.put("dica", "Womens likes to...");
-	    values.put("nivel", "hard");
-	    db.insert("palavras", null, values);
+	    values.put("conteudo", "android");
+	    values.put("tamanho", 7);
+	    values.put("dica", "Sistema Operacional para Dispositivos Móveis");
+	    db.insert(NOME_TABELA, null, values);
+	    
+	    values.put("conteudo", "ornitorrinco");
+	    values.put("tamanho", 12);
+	    values.put("dica", "Mamífero semiaquático");
+	    db.insert(NOME_TABELA, null, values);
 
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
-		
+		Log.d("DBHelper.onUpgrade","Atualizando o Banco de Dados");
+
 	}
-	
-	public SQLiteDatabase getDatabase(){
-		return this.getWritableDatabase();
+
+	@Override
+	public synchronized SQLiteDatabase getWritableDatabase() {
+		// TODO Auto-generated method stub
+		Log.d("DBHelper.getWritableDatabase"," Carregando o Banco de Dados");
+		return super.getWritableDatabase();
 	}
-	
 }

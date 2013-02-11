@@ -1,10 +1,16 @@
 package com.ufc.scramble_word.activity;
 
+import java.util.Random;
+
 import com.ufc.scramble_word.util.Cronometro;
+import com.ufc.scramble_word.util.ShakeEventListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,6 +24,8 @@ public class HardModeGameActivity extends Activity {
 
 	private TextView texto;
 	private Cronometro cronometro;
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,14 @@ public class HardModeGameActivity extends Activity {
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
 
+		/* Sensor para quando balançar o dispositivo executar alguma ação */
+	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+	    mSensorListener = new ShakeEventListener();   
+	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+	      public void onShake() {
+	        Toast.makeText(HardModeGameActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
+	      }
+	    });
 	}
 
 	@Override
@@ -45,11 +61,15 @@ public class HardModeGameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		cronometro.start();
+		mSensorManager.registerListener(mSensorListener,
+		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+		        SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override
 	protected void onPause() {
 		cronometro.pause();
+		mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 	}
 
@@ -197,6 +217,23 @@ public class HardModeGameActivity extends Activity {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 
+	}
+	
+	/* Método para embaralhar a palavra */
+	public String scramble(String word) {
+	    StringBuilder builder = new StringBuilder(word.length());
+	    boolean[] used = new boolean[word.length()];
+	    
+	    for (int i = 0; i < word.length(); i++) {
+	        int rndIndex;
+	        do {
+	            rndIndex = new Random().nextInt(word.length());
+	        } while (used[rndIndex]);
+	        used[rndIndex] = true;
+	        	
+	        builder.append(word.charAt(rndIndex));
+	    }
+	    return builder.toString();
 	}
 
 }
