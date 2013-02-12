@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -36,6 +37,7 @@ public class EasyModeGameActivity extends Activity {
 	private ArrayList<Word> lista_word;
 	private Random random;
 	private Handler handler;
+	private MediaPlayer music;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class EasyModeGameActivity extends Activity {
 		texto = (TextView) findViewById(R.id.cronometro);
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
+		
+		/* Tocando música em background */
+		music = MediaPlayer.create(EasyModeGameActivity.this, R.raw.tick_tock);
+		music.setLooping(true);
 		
 		/* Selecionando palavra*/
 		getNovaPalavra();
@@ -56,7 +62,7 @@ public class EasyModeGameActivity extends Activity {
 	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 	      public void onShake() {
 	    	scramble_word.setText(scramble(word.getConteudo()));
-	        Toast.makeText(EasyModeGameActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
+	        Toast.makeText(EasyModeGameActivity.this, "Word scrambled again!", Toast.LENGTH_SHORT).show();
 	      }
 	    });
 	}
@@ -233,7 +239,7 @@ public class EasyModeGameActivity extends Activity {
 	
 	/* Método para pegar uma palavra do banco de dados de tamanho até 6 */
 	public void getNovaPalavra(){
-		
+		music.start();
 		dbController = new DatabaseController(getApplicationContext());
 		lista_word = dbController.selecionarPalavrasDeTamanhoAte(6);
 		random = new Random();
@@ -244,6 +250,7 @@ public class EasyModeGameActivity extends Activity {
 	
 	/* Método para mostrar dica após 10 segundos */
 	public void mostrarDica(){
+		music.start();
 		handler = new Handler();
 		handler.postDelayed(new Runnable() {
 		  @Override
@@ -254,15 +261,17 @@ public class EasyModeGameActivity extends Activity {
 	}
 	
 	public void cancelarDica(){
+		music.pause();
 		handler.removeCallbacksAndMessages(null);
 	}
 	
 	public void pausarDica(){
+		music.pause();
 		handler.removeCallbacksAndMessages(null);
 	}
 	
 	public void continuarDica(){
-		
+		music.start();
 		if(cronometro.getTempo() < 10000){
 			handler = new Handler();
 			handler.postDelayed(new Runnable() {

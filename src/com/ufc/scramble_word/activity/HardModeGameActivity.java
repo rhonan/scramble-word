@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -36,6 +37,7 @@ public class HardModeGameActivity extends Activity {
 	private ArrayList<Word> lista_word;
 	private Random random;
 	private Handler handler;
+	private MediaPlayer music;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,11 @@ public class HardModeGameActivity extends Activity {
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
 		
+		/* Tocando mœsica em background */
+		music = MediaPlayer.create(HardModeGameActivity.this, R.raw.tick_tock);
+		music.setLooping(true);
+		
+		/* Selecionando palavra*/
 		getNovaPalavra();
 		mostrarDica();
 
@@ -54,7 +61,8 @@ public class HardModeGameActivity extends Activity {
 	    mSensorListener = new ShakeEventListener();   
 	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 	      public void onShake() {
-	        Toast.makeText(HardModeGameActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
+		    	scramble_word.setText(scramble(word.getConteudo()));
+		        Toast.makeText(HardModeGameActivity.this, "Word scrambled again!", Toast.LENGTH_SHORT).show();
 	      }
 	    });
 	}
@@ -101,6 +109,7 @@ public class HardModeGameActivity extends Activity {
 	}
 
 	protected void setMainLayout() {
+		
 		Button bt_level_mode = (Button) findViewById(R.id.bt_back_level_mode);
 		bt_level_mode.setOnClickListener(new OnClickListener() {
 
@@ -109,7 +118,9 @@ public class HardModeGameActivity extends Activity {
 				finish();
 			}
 		});
+		
 		Button bt_unscramble = (Button) findViewById(R.id.bt_unscramble);
+		
 		bt_unscramble.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -126,6 +137,7 @@ public class HardModeGameActivity extends Activity {
 
 			}
 		});
+		
 	}
 
 	@Override
@@ -227,6 +239,7 @@ public class HardModeGameActivity extends Activity {
 	
 	/* Selecionando palavra de tamanho maior ou igual que 12 do Banco de Dados */
 	public void getNovaPalavra(){
+		music.start();
 		dbController = new DatabaseController(getApplicationContext());
 		lista_word = dbController.selecionarPalavrasDeTamanhoMaiorOuIgualQue(12);
 		random = new Random();
@@ -237,6 +250,7 @@ public class HardModeGameActivity extends Activity {
 	
 	/* MŽtodo para mostrar dica ap—s 20 segundos */
 	public void mostrarDica(){
+		music.start();
 		handler = new Handler();
 		handler.postDelayed(new Runnable() {
 		  @Override
@@ -247,15 +261,17 @@ public class HardModeGameActivity extends Activity {
 	}
 	
 	public void cancelarDica(){
+		music.pause();
 		handler.removeCallbacksAndMessages(null);
 	}
 	
 	public void pausarDica(){
+		music.pause();
 		handler.removeCallbacksAndMessages(null);
 	}
 	
 	public void continuarDica(){
-		
+		music.start();
 		if(cronometro.getTempo() < 20000){
 			handler = new Handler();
 			handler.postDelayed(new Runnable() {

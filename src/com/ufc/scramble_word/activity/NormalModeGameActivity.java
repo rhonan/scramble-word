@@ -8,6 +8,7 @@ import com.ufc.scramble_word.database.DatabaseController;
 import com.ufc.scramble_word.util.Cronometro;
 import com.ufc.scramble_word.util.ShakeEventListener;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -36,6 +37,7 @@ public class NormalModeGameActivity extends Activity {
 	private ArrayList<Word> lista_word;
 	private Random random;
 	private Handler handler;
+	private MediaPlayer music;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,11 @@ public class NormalModeGameActivity extends Activity {
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
 		
+		/* Tocando mœsica em background */
+		music = MediaPlayer.create(NormalModeGameActivity.this, R.raw.tick_tock);
+		music.setLooping(true);
+		
+		/* Selecionando palavra*/
 		getNovaPalavra();
 		mostrarDica();
 		
@@ -54,7 +61,8 @@ public class NormalModeGameActivity extends Activity {
 	    mSensorListener = new ShakeEventListener();   
 	    mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
 	      public void onShake() {
-	        Toast.makeText(NormalModeGameActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
+		    	scramble_word.setText(scramble(word.getConteudo()));
+		        Toast.makeText(NormalModeGameActivity.this, "Word scrambled again!", Toast.LENGTH_SHORT).show();
 	      }
 	    });
 	}
@@ -227,7 +235,7 @@ public class NormalModeGameActivity extends Activity {
 	
 	/* Selecionando uma palavra de tamanho entre 7 e 12 do Banco de Dados */
 	public void getNovaPalavra(){
-		
+		music.start();
 		dbController = new DatabaseController(getApplicationContext());
 		lista_word = dbController.selecionarPalavrasDeTamanhoEntre(7, 11);
 		random = new Random();
@@ -238,6 +246,7 @@ public class NormalModeGameActivity extends Activity {
 	
 	/* MŽtodo para mostrar dica ap—s 15 segundos */
 	public void mostrarDica(){
+		music.start();
 		handler = new Handler();
 		handler.postDelayed(new Runnable() {
 		  @Override
@@ -248,15 +257,17 @@ public class NormalModeGameActivity extends Activity {
 	}
 
 	public void cancelarDica(){
+		music.pause();
 		handler.removeCallbacksAndMessages(null);
 	}
 	
 	public void pausarDica(){
+		music.pause();
 		handler.removeCallbacksAndMessages(null);
 	}
 	
 	public void continuarDica(){
-		
+		music.start();
 		if(cronometro.getTempo() < 15000){
 			handler = new Handler();
 			handler.postDelayed(new Runnable() {

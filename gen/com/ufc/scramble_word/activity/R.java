@@ -12,34 +12,35 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int teste=0x7f020001;
+        public static final int ic_scrambleword=0x7f020001;
+        public static final int teste=0x7f020002;
     }
     public static final class id {
-        public static final int autoCompleteTextViewContato=0x7f070004;
-        public static final int bt_back_level_mode=0x7f070003;
-        public static final int bt_credits=0x7f070008;
-        public static final int bt_desconectar=0x7f07000c;
-        public static final int bt_enviar=0x7f070001;
-        public static final int bt_invite=0x7f070009;
-        public static final int bt_ok=0x7f07000f;
-        public static final int bt_play=0x7f07000b;
-        public static final int bt_send_invite=0x7f070005;
-        public static final int bt_try=0x7f070006;
-        public static final int bt_unscramble=0x7f070016;
-        public static final int bt_versus=0x7f07000a;
-        public static final int cronometro=0x7f070017;
-        public static final int et_ip=0x7f070002;
-        public static final int et_palavra=0x7f07000d;
-        public static final int et_unscrambled_word=0x7f070015;
-        public static final int ib_main_menu=0x7f070013;
-        public static final int menu_settings=0x7f070018;
-        public static final int tv_credits=0x7f070012;
-        public static final int tv_invite=0x7f070007;
-        public static final int tv_ip=0x7f070000;
-        public static final int tv_palavra=0x7f07000e;
-        public static final int tv_scramble_word=0x7f070014;
-        public static final int tv_status=0x7f070010;
-        public static final int tv_word=0x7f070011;
+        public static final int autoCompleteTextViewContato=0x7f080004;
+        public static final int bt_back_level_mode=0x7f080003;
+        public static final int bt_credits=0x7f080008;
+        public static final int bt_desconectar=0x7f08000c;
+        public static final int bt_enviar=0x7f080001;
+        public static final int bt_invite=0x7f080009;
+        public static final int bt_ok=0x7f08000f;
+        public static final int bt_play=0x7f08000b;
+        public static final int bt_send_invite=0x7f080005;
+        public static final int bt_try=0x7f080006;
+        public static final int bt_unscramble=0x7f080016;
+        public static final int bt_versus=0x7f08000a;
+        public static final int cronometro=0x7f080017;
+        public static final int et_ip=0x7f080002;
+        public static final int et_palavra=0x7f08000d;
+        public static final int et_unscrambled_word=0x7f080015;
+        public static final int ib_main_menu=0x7f080013;
+        public static final int menu_settings=0x7f080018;
+        public static final int tv_credits=0x7f080012;
+        public static final int tv_invite=0x7f080007;
+        public static final int tv_ip=0x7f080000;
+        public static final int tv_palavra=0x7f08000e;
+        public static final int tv_scramble_word=0x7f080014;
+        public static final int tv_status=0x7f080010;
+        public static final int tv_word=0x7f080011;
     }
     public static final class layout {
         public static final int activity_cliente=0x7f030000;
@@ -54,50 +55,53 @@ public final class R {
         public static final int level_progress=0x7f030009;
     }
     public static final class menu {
-        public static final int activity_cliente=0x7f060000;
-        public static final int activity_mensagem=0x7f060001;
-        public static final int activity_server=0x7f060002;
+        public static final int activity_cliente=0x7f070000;
+        public static final int activity_mensagem=0x7f070001;
+        public static final int activity_server=0x7f070002;
+    }
+    public static final class raw {
+        public static final int tick_tock=0x7f040000;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int audio=0x7f040014;
-        public static final int cancel=0x7f040016;
-        public static final int choose_game_mode=0x7f04000d;
-        public static final int congratulations=0x7f04000f;
-        public static final int connect=0x7f040025;
-        public static final int credits=0x7f04000b;
-        public static final int credits_text=0x7f04000c;
-        public static final int disconnect=0x7f040023;
-        public static final int easy=0x7f040006;
-        public static final int facebook_share=0x7f040011;
-        public static final int hard=0x7f040008;
-        public static final int hello_world=0x7f04001a;
-        public static final int invite=0x7f040018;
-        public static final int invite_info=0x7f04001c;
-        public static final int invite_sent=0x7f04001d;
-        public static final int ip=0x7f040026;
-        public static final int menu=0x7f040003;
-        public static final int menu_settings=0x7f040001;
-        public static final int more=0x7f04000a;
-        public static final int next=0x7f040010;
-        public static final int normal=0x7f040007;
-        public static final int ok=0x7f040017;
-        public static final int pause=0x7f040015;
-        public static final int play=0x7f040009;
-        public static final int resume=0x7f040013;
-        public static final int send=0x7f040019;
-        public static final int shared=0x7f040012;
-        public static final int status=0x7f040024;
-        public static final int title_activity_cliente=0x7f040020;
-        public static final int title_activity_easy_mode_game=0x7f040002;
-        public static final int title_activity_hard_mode_game=0x7f040005;
-        public static final int title_activity_invite=0x7f04001b;
-        public static final int title_activity_mensagem=0x7f040022;
-        public static final int title_activity_normal_mode_game=0x7f040004;
-        public static final int title_activity_server=0x7f040021;
-        public static final int try_again=0x7f04001e;
-        public static final int unscramble=0x7f04000e;
-        public static final int versus=0x7f04001f;
+        public static final int app_name=0x7f050000;
+        public static final int audio=0x7f050014;
+        public static final int cancel=0x7f050016;
+        public static final int choose_game_mode=0x7f05000d;
+        public static final int congratulations=0x7f05000f;
+        public static final int connect=0x7f050025;
+        public static final int credits=0x7f05000b;
+        public static final int credits_text=0x7f05000c;
+        public static final int disconnect=0x7f050023;
+        public static final int easy=0x7f050006;
+        public static final int facebook_share=0x7f050011;
+        public static final int hard=0x7f050008;
+        public static final int hello_world=0x7f05001a;
+        public static final int invite=0x7f050018;
+        public static final int invite_info=0x7f05001c;
+        public static final int invite_sent=0x7f05001d;
+        public static final int ip=0x7f050026;
+        public static final int menu=0x7f050003;
+        public static final int menu_settings=0x7f050001;
+        public static final int more=0x7f05000a;
+        public static final int next=0x7f050010;
+        public static final int normal=0x7f050007;
+        public static final int ok=0x7f050017;
+        public static final int pause=0x7f050015;
+        public static final int play=0x7f050009;
+        public static final int resume=0x7f050013;
+        public static final int send=0x7f050019;
+        public static final int shared=0x7f050012;
+        public static final int status=0x7f050024;
+        public static final int title_activity_cliente=0x7f050020;
+        public static final int title_activity_easy_mode_game=0x7f050002;
+        public static final int title_activity_hard_mode_game=0x7f050005;
+        public static final int title_activity_invite=0x7f05001b;
+        public static final int title_activity_mensagem=0x7f050022;
+        public static final int title_activity_normal_mode_game=0x7f050004;
+        public static final int title_activity_server=0x7f050021;
+        public static final int try_again=0x7f05001e;
+        public static final int unscramble=0x7f05000e;
+        public static final int versus=0x7f05001f;
     }
     public static final class style {
         /** 
@@ -110,10 +114,10 @@ public final class R {
             backward-compatibility can go here.
         
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f060001;
     }
 }
