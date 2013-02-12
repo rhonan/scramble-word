@@ -147,5 +147,77 @@ public class DatabaseController {
 		return lista;
 
 	}
+	
+	public ArrayList<Word> selecionarPalavrasDeTamanhoEntre(int min, int max) {
 
+		dbHelper = new DatabaseHelper(context);
+		db = dbHelper.getWritableDatabase();
+
+		cursor = db.query(DatabaseHelper.NOME_TABELA, new String[]{ 
+				DatabaseHelper.WORD_ID,
+				DatabaseHelper.WORD_CONTEUDO,
+				DatabaseHelper.WORD_DICA,
+				DatabaseHelper.WORD_TAMANHO }, DatabaseHelper.WORD_TAMANHO +">=" + min +" AND "+ DatabaseHelper.WORD_TAMANHO + "<="+ max, null, null, null, null);
+							//db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
+
+		cursor.moveToFirst();
+		ArrayList<Word> lista = new ArrayList<Word>();
+
+		while ( !cursor.isAfterLast() ){
+
+			Word word = new Word();
+
+			word.setId(		cursor.getLong	(cursor.getColumnIndex(DatabaseHelper.WORD_ID)));
+			word.setConteudo(	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_CONTEUDO)));
+			word.setDica(	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_DICA)));
+			word.setTamanho(	cursor.getInt(cursor.getColumnIndex(DatabaseHelper.WORD_TAMANHO)));
+
+			lista.add(word);
+
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		db.close();
+
+		return lista;
+
+	}
+
+	public ArrayList<Word> selecionarPalavrasDeTamanhoMaiorOuIgualQue(int tamanho) {
+
+		dbHelper = new DatabaseHelper(context);
+		db = dbHelper.getWritableDatabase();
+
+		cursor = db.query(DatabaseHelper.NOME_TABELA, new String[]{ 
+				DatabaseHelper.WORD_ID,
+				DatabaseHelper.WORD_CONTEUDO,
+				DatabaseHelper.WORD_DICA,
+				DatabaseHelper.WORD_TAMANHO }, DatabaseHelper.WORD_TAMANHO + ">= "+tamanho, null, null, null, null);
+							//db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
+
+		cursor.moveToFirst();
+		ArrayList<Word> lista = new ArrayList<Word>();
+
+		while ( !cursor.isAfterLast() ){
+
+			Word word = new Word();
+
+			word.setId(		cursor.getLong	(cursor.getColumnIndex(DatabaseHelper.WORD_ID)));
+			word.setConteudo(	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_CONTEUDO)));
+			word.setDica(	cursor.getString(cursor.getColumnIndex(DatabaseHelper.WORD_DICA)));
+			word.setTamanho(	cursor.getInt(cursor.getColumnIndex(DatabaseHelper.WORD_TAMANHO)));
+
+			lista.add(word);
+
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		db.close();
+
+		return lista;
+
+	}
+	
 }

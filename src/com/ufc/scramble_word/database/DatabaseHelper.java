@@ -63,6 +63,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	    values.put("tamanho", 12);
 	    values.put("dica", "Mamífero semiaquático");
 	    db.insert(NOME_TABELA, null, values);
+	    
+	    values.put("conteudo", "paralelepipedo");
+	    values.put("tamanho", 14);
+	    values.put("dica", "Pedra de calçamento");
+	    db.insert(NOME_TABELA, null, values);
+	    
+	    values.put("conteudo", "gato");
+	    values.put("tamanho", 4);
+	    values.put("dica", "Animal");
+	    db.insert(NOME_TABELA, null, values);
 
 	}
 

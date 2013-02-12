@@ -1,5 +1,6 @@
 package com.ufc.scramble_word.activity;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.ufc.scramble_word.bean.Word;
@@ -14,6 +15,7 @@ import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +33,9 @@ public class EasyModeGameActivity extends Activity {
 	private ShakeEventListener mSensorListener;
 	private DatabaseController dbController;
 	private Word word;
+	private ArrayList<Word> lista_word;
+	private Random random;
+	private Handler handler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +43,12 @@ public class EasyModeGameActivity extends Activity {
 		setContentView(R.layout.activity_easy_mode_game);
 		setMainLayout();
 		texto = (TextView) findViewById(R.id.cronometro);
-		
-		dbController = new DatabaseController(getApplicationContext());
-		word = dbController.selecionar(1);
-		
-		scramble_word = (TextView) findViewById(R.id.tv_scramble_word);
-		scramble_word.setText(scramble(word.getConteudo()));
 		cronometro = new Cronometro(texto);
 		cronometro.execute();
+		
+		/* Selecionando palavra*/
+		getNovaPalavra();
+		mostrarDica();
 		
 		/* Sensor para quando balançar o dispositivo executar alguma ação */
 	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -88,6 +91,7 @@ public class EasyModeGameActivity extends Activity {
 	@Override
 	protected void onStop() {
 		cronometro.pause();
+		cancelarDica();
 		super.onStop();
 
 	}
@@ -117,11 +121,12 @@ public class EasyModeGameActivity extends Activity {
 			public void onClick(View v) {
 				// Emular resposta errada com campo vazio
 				EditText unscrambled_word = (EditText) findViewById(R.id.et_unscrambled_word);
-				if (unscrambled_word.getText().toString().equals("")) {
+				if (!unscrambled_word.getText().toString().equals(word.getConteudo())) {
 					Toast.makeText(getApplicationContext(), "Wrong!",
 							Toast.LENGTH_SHORT).show();
 				} else {
 					setCongratulationView(true);
+					cancelarDica();
 				}
 
 			}
@@ -133,50 +138,22 @@ public class EasyModeGameActivity extends Activity {
 	public boolean onKeyDown(int keycode, KeyEvent event) {
 		if (keycode == KeyEvent.KEYCODE_MENU) {
 			cronometro.pause();
+			pausarDica();
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.pause);
 			builder.setCancelable(false);
 			// Add the buttons
-			String[] gameModeOptions = { "Resume", "Audio", "Exit" };
+			String[] gameModeOptions = { "Resume", "Exit" };
 			builder.setItems(gameModeOptions,
 					new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							if (which == 0)
+							if (which == 0){
 								cronometro.start();
-							if (which == 1) {
-								AlertDialog.Builder confAudio = new AlertDialog.Builder(
-										EasyModeGameActivity.this);
-								confAudio.setTitle(R.string.audio);
-								confAudio.setCancelable(false);
-								confAudio.setPositiveButton(R.string.ok,
-										new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												// TODO Auto-generated method
-												// stub
-
-											}
-										});
-								confAudio.setNegativeButton(R.string.cancel,
-										new DialogInterface.OnClickListener() {
-
-											@Override
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												// TODO Auto-generated method
-												// stub
-
-											}
-										});
-								AlertDialog audioDialog = confAudio.create();
-								audioDialog.show();
+								continuarDica();
 							}
-							if (which == 2)
+							if (which == 1)
 								finish();
 						}
 
@@ -225,6 +202,9 @@ public class EasyModeGameActivity extends Activity {
 						EditText et = (EditText) findViewById(R.id.et_unscrambled_word);
 						et.setText(null);
 						// Método para adicionar nova palavra na tela.
+						cancelarDica();
+						getNovaPalavra();
+						mostrarDica();
 					}
 				});
 
@@ -250,4 +230,54 @@ public class EasyModeGameActivity extends Activity {
 	    }
 	    return builder.toString();
 	}
+	
+	/* Método para pegar uma palavra do banco de dados de tamanho até 6 */
+	public void getNovaPalavra(){
+		
+		dbController = new DatabaseController(getApplicationContext());
+		lista_word = dbController.selecionarPalavrasDeTamanhoAte(6);
+		random = new Random();
+		word = lista_word.get(random.nextInt(lista_word.size()));		
+		scramble_word = (TextView) findViewById(R.id.tv_scramble_word);
+		scramble_word.setText(scramble(word.getConteudo()));
+	}
+	
+	/* Método para mostrar dica após 10 segundos */
+	public void mostrarDica(){
+		handler = new Handler();
+		handler.postDelayed(new Runnable() {
+		  @Override
+		  public void run() {
+			  Toast.makeText(EasyModeGameActivity.this, word.getDica(), Toast.LENGTH_SHORT).show();
+		  }
+		}, 10000);
+	}
+	
+	public void cancelarDica(){
+		handler.removeCallbacksAndMessages(null);
+	}
+	
+	public void pausarDica(){
+		handler.removeCallbacksAndMessages(null);
+	}
+	
+	public void continuarDica(){
+		
+		if(cronometro.getTempo() < 10000){
+			handler = new Handler();
+			handler.postDelayed(new Runnable() {
+			  @Override
+			  public void run() {
+				  Toast.makeText(EasyModeGameActivity.this, word.getDica(), Toast.LENGTH_SHORT).show();
+			  }
+			}, 10000 - cronometro.getTempo());
+		}
+		else{
+			
+		}
+		
+	}
+	
 }
+
+	

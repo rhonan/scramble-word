@@ -75,5 +75,9 @@ import android.widget.TextView;
 			cronometrando = true;
 			tempoInicio = System.currentTimeMillis();
 		}
+		
+		public long getTempo(){
+			return tempo;
+		}
 	}
 
