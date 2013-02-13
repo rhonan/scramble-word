@@ -127,7 +127,7 @@ public class HardModeGameActivity extends Activity {
 			public void onClick(View v) {
 				// Emular resposta errada com campo vazio
 				EditText unscrambled_word = (EditText) findViewById(R.id.et_unscrambled_word);
-				if (!unscrambled_word.getText().toString().equals(word.getConteudo())) {
+				if (!unscrambled_word.getText().toString().toLowerCase().equals(word.getConteudo())) {
 					Toast.makeText(getApplicationContext(), "Wrong!",
 							Toast.LENGTH_SHORT).show();
 				} else {
@@ -188,7 +188,7 @@ public class HardModeGameActivity extends Activity {
 						finish();
 					}
 				});
-		builder.setNeutralButton(R.string.facebook_share,
+/*		builder.setNeutralButton(R.string.facebook_share,
 				new DialogInterface.OnClickListener() {
 
 					@Override
@@ -197,7 +197,7 @@ public class HardModeGameActivity extends Activity {
 						// simulando resume
 						cronometro.start();
 					}
-				});
+				});*/
 		builder.setNegativeButton(R.string.next,
 				new DialogInterface.OnClickListener() {
 
